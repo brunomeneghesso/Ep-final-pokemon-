@@ -1,7 +1,7 @@
 BRANCO = (255, 255, 255)
 BLACK = (0, 0, 0)
 CINZA_ESC = (40, 40, 40)
-CINZA_ESC = (100, 100, 100)
+CINZA_CLA = (100, 100, 100)
 VERDE = (0, 255, 0)
 VERMELHO = (255, 0, 0)
 AMARELO = (255, 255, 0)
@@ -10,7 +10,7 @@ AMARELO = (255, 255, 0)
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
-TITLE = "Tilemap Demo"
+TITULO = "Tilemap Demo"
 BGCOLOR = CINZA_ESC
 
 TILESIZE = 32

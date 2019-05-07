@@ -1,13 +1,13 @@
 import pygame as pg
 import sys
-from settings import *
-from sprites import *
+import settings
+import sprites
 
 class Game:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
-        pg.display.set_caption(TITLE)
+        self.screen = pg.display.set_mode((settings.WIDTH, settings.HEIGHT))
+        pg.display.set_caption(settings.TITULO)
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
@@ -19,15 +19,15 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.player = Player(self, 10, 10)
+        self.player = sprites.Player(self, 10, 10)
         for x in range(10, 20):
-            Parede(self, x, 5)
+            sprites.Parede(self, x, 5)
 
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
-            self.dt = self.clock.tick(FPS) / 1000
+            self.dt = self.clock.tick(settings.FPS) / 1000
             self.events()
             self.update()
             self.draw()
@@ -41,13 +41,13 @@ class Game:
         self.all_sprites.update()
 
     def draw_grid(self):
-        for x in range(0, WIDTH, TILESIZE):
-            pg.draw.line(self.screen,   CINZA_CLA, (x, 0), (x, HEIGHT))
-        for y in range(0, HEIGHT, TILESIZE):
-            pg.draw.line(self.screen, CINZA_CLA, (0, y), (WIDTH, y))
+        for x in range(0, settings.WIDTH, settings.TILESIZE):
+            pg.draw.line(self.screen,   settings.CINZA_CLA, (x, 0), (x, settings.HEIGHT))
+        for y in range(0, settings.HEIGHT, settings.TILESIZE):
+            pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
 
     def draw(self):
-        self.screen.fill(BGCOLOR)
+        self.screen.fill(settings.BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         pg.display.flip()
