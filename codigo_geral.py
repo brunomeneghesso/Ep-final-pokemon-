@@ -95,7 +95,12 @@ class Game:
                     for B in self.game.baus:
                         if B.x == ver[0] and B.y == ver[1]:
                             if B.aberto == False:
-                                sprites.abre(B)
+                                B.op = True
+                                if B.item not in self.player.inventario:
+                                    self.player.inventario[B.item]=1
+                                else:
+                                    self.player.inventario[B.item]+=1
+                            #escrever aqui o codigo para abrir a tela do bau
                 
     def show_start_screen(self):
         pass

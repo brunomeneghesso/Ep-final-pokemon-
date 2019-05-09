@@ -12,6 +12,7 @@ class Player(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.rot = 90
+        self.inventario={}
 
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
@@ -54,6 +55,3 @@ class Bau(pg.sprite.Sprite):
         self.rect.y = y * settings.TILESIZE
         self.conteudo = item
         self.aberto = op
-def abre(bau):
-    bau.op = True
-    #escreve a função que abre bau
