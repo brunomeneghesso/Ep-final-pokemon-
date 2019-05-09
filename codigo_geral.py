@@ -83,7 +83,20 @@ class Game:
                 if event.key == pg.K_DOWN:
                     self.player.move(dy=1)
                     self.player.rot(270)
-
+                if event.key == pg.K_SPACE:
+                    if self.player.rot == 0:
+                        ver = [self.player.x+1, self.player.y]
+                    elif self.player.rot == 90:
+                        ver = [self.player.x, self.player.y-1]
+                    elif self.player.rot == 180:
+                        ver = [self.player.x-1, self.player.y]
+                    elif self.player.rot == 270:
+                        ver = [self.player.x, self.player.y+1]
+                    for B in self.game.baus:
+                        if B.x == ver[0] and B.y == ver[1]:
+                            if B.aberto == False:
+                                sprites.abre(B)
+                
     def show_start_screen(self):
         pass
 

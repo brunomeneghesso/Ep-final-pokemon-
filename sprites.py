@@ -41,7 +41,8 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
 class Bau(pg.sprite.Sprite):
-    def __init__(self, game, x, y, item):
+    def __init__(self, game, x, y, item, op):
+        self.groups = game.all_sprites, game.baus
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((settings.TILESIZE, settings.TILESIZE))
@@ -52,3 +53,7 @@ class Bau(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         self.conteudo = item
+        self.aberto = op
+def abre(bau):
+    bau.op = True
+    #escreve a função que abre bau
