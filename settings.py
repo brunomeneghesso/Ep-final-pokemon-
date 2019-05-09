@@ -10,7 +10,7 @@ AMARELO = (255, 255, 0)
 WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
-TITULO = "Tilemap Demo"
+TITULO = "EP pre-alfa"
 BGCOLOR = CINZA_ESC
 
 TILESIZE = 32

@@ -104,7 +104,7 @@ class Game:
                                     self.player.inventario[B.conteudo]=1
                                 else:
                                     self.player.inventario[B.conteudo]+=1
-                            #escrever aqui o codigo para abrir a tela do bau
+                                #escrever aqui o codigo para abrir a tela do bau
                 
     def show_start_screen(self):
         pass
