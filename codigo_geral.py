@@ -96,14 +96,14 @@ class Game:
                         ver = [self.player.x-1, self.player.y]
                     elif self.player.rot == 270:
                         ver = [self.player.x, self.player.y+1]
-                    for B in self.game.baus:
+                    for B in self.baus:
                         if B.x == ver[0] and B.y == ver[1]:
                             if B.aberto == False:
                                 B.op = True
-                                if B.item not in self.player.inventario:
-                                    self.player.inventario[B.item]=1
+                                if B.conteudo not in self.player.inventario:
+                                    self.player.inventario[B.conteudo]=1
                                 else:
-                                    self.player.inventario[B.item]+=1
+                                    self.player.inventario[B.conteudo]+=1
                             #escrever aqui o codigo para abrir a tela do bau
                 
     def show_start_screen(self):

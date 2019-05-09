@@ -7,7 +7,7 @@ VERMELHO = (255, 0, 0)
 AMARELO = (255, 255, 0)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
+WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16
 HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITULO = "Tilemap Demo"

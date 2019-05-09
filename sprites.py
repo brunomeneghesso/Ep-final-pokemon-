@@ -6,6 +6,7 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.image = game.player_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -41,7 +42,7 @@ class Wall(pg.sprite.Sprite):
         self.rect.y = y * settings.TILESIZE
 class Bau(pg.sprite.Sprite):
     def __init__(self, game, x, y, item, op):
-        self.groups = game.all_sprites, game.baus
+        self.groups = game.all_sprites, game.baus, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((settings.TILESIZE, settings.TILESIZE))
