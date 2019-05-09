@@ -4,7 +4,7 @@ from os import path
 import settings
 import sprites
 import tilemap
-
+lista_baus=[[18,5,"tal item"]]
 class Game:
     def __init__(self):
         pg.init()
@@ -23,6 +23,9 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+        self.baus = pg.sprite.Group()
+        for l in lista_baus:
+            sprites.Bau(self, l[0], l[1], l[3])
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
