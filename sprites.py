@@ -45,12 +45,16 @@ class Bau(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.baus, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.aberto = op
         self.image = pg.Surface((settings.TILESIZE, settings.TILESIZE))
-        self.image.fill(settings.AMARELO)
+        if self.aberto == False:
+            self.image.fill(settings.AMARELO)
+        else:
+            self.image.fill(settings.AMARELO_ESC)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         self.conteudo = item
-        self.aberto = op
+        
