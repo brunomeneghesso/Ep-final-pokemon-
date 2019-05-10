@@ -11,6 +11,7 @@ class Game:
         self.screen = pg.display.set_mode((settings.WIDTH, settings.HEIGHT))
         pg.display.set_caption(settings.TITULO)
         self.clock = pg.time.Clock()
+        pg.key.set_repeat(200,100)
         self.load_data()
 
     def load_data(self):
