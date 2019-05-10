@@ -5,6 +5,9 @@ import settings
 import sprites
 import tilemap
 lista_baus=[[18,5,"tal item"]]
+pg.font.init() # you have to call this at the start, 
+                   # if you want to use this module.
+myfont = pg.font.SysFont('Comic Sans MS', 30)
 class Game:
     def __init__(self):
         pg.init()
@@ -104,8 +107,8 @@ class Game:
                                     self.player.inventario[B.conteudo]=1
                                 else:
                                     self.player.inventario[B.conteudo]+=1
-                                #escrever aqui o codigo para abrir a tela do bau
-                
+                                textsurface = myfont.render('Voce adquiriu um novo item!', False, (0, 0, 0))
+                                pg.screen.blit(textsurface,(0,0))
     def show_start_screen(self):
         pass
 
