@@ -5,7 +5,7 @@ CINZA_CLA = (100, 100, 100)
 VERDE = (0, 255, 0)
 VERMELHO = (255, 0, 0)
 AMARELO = (255, 255, 0)
-AMARELO_ESC = (150,150,0)
+AMARELO_ESC = (200,150,0)
 
 # game settings
 WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16

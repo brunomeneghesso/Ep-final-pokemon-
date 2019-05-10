@@ -101,6 +101,7 @@ class Game:
                         if B.x == ver[0] and B.y == ver[1]:
                             if B.aberto == False:
                                 B.op = True
+                                sprites.Bau(self, B.x, B.y, B.conteudo, B.op)
                                 if B.conteudo not in self.player.inventario:
                                     self.player.inventario[B.conteudo]=1
                                 else:
