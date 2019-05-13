@@ -1,3 +1,5 @@
+import pygame as pg
+from os import path
 BRANCO = (255, 255, 255)
 BLACK = (0, 0, 0)
 CINZA_ESC = (40, 40, 40)
@@ -17,3 +19,5 @@ BGCOLOR = CINZA_ESC
 TILESIZE = 32
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
+
+fonte = pg.font.Font(path.join(path.join(path.dirname(__file__), 'fnt'), "Cardinal.ttf"), 14)
