@@ -58,7 +58,7 @@ class Bau(pg.sprite.Sprite):
         self.rect.y = y * settings.TILESIZE
         self.conteudo = item
 class Monstro(pg.sprite.Sprite):
-    def __init__(self, game, tipo, move_pool, imagem, crescimento):
+    def __init__(self, game, tipo, move_pool, imagem, crescimento, explv):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -66,11 +66,13 @@ class Monstro(pg.sprite.Sprite):
         self.tipo = tipo
         self.move_pool = move_pool
         self.image = imagem
-        self.crescismento=crescimento
+        self.crescismento = crescimento
+        self.explv = explv
 class criatura(Monstro):
-    def __init__(self, moves, lv):
+    def __init__(self, moves, lv, exp):
         self.moves = moves
         self.lv = lv
+        self.exp = exp
 class Golpes():
     def __init__(self, game, tipo, dano, bonus):
         self.groups = game.all_sprites
