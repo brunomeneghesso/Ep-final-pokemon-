@@ -108,7 +108,7 @@ class Game:
                                     self.player.inventario[B.conteudo]+=1
                                 text_surface = settings.fonte.render("voce ganhou 1 {0}".format(B.conteudo), True, settings.BRANCO)
                                 text_rect = text_surface.get_rect()
-                                text_rect.midtop = (settings.WIDTH / 2,  10)
+                                text_rect.midtop = (settings.WIDTH / 2,  3)
                                 self.screen.blit(text_surface, text_rect)
                                 #if event.key == pg.K_SPACE:
                                     
