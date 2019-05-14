@@ -4,9 +4,8 @@ from os import path
 import settings
 import sprites
 import tilemap
-lista_baus=[[18,5,"tal item"]]
+lista_baus=[[18,5,"tal item"]] 
 class Game:
-    abrindo=False
     def __init__(self):
         pg.init()
         self.screen = pg.display.set_mode((settings.WIDTH, settings.HEIGHT))
@@ -14,6 +13,7 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(200,100)
         self.load_data()
+        self.abrindo = False
 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -68,8 +68,8 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
-    def events(self, abrindo):
-        if abrindo == False:
+    def events(self):
+        if not self.abrindo:
         # catch all events here
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -101,23 +101,23 @@ class Game:
                         for B in self.baus:
                             if B.x == ver[0] and B.y == ver[1]:
                                 if B.aberto == False:
-                                    abrindo = True
-                                    Ba=B
-        if abrindo == True:
+                                    self.Ba=B
+                                    self.abrindo = True
+        if self.abrindo == True: 
             for event in pg.event.get():
-                Ba.op = True
-                sprites.Bau(self, Ba.x, Ba.y, Ba.conteudo, B.op)
-                if Ba.conteudo not in self.player.inventario:
+                self.Ba.op = True
+                sprites.Bau(self, self.Ba.x, self.Ba.y, self.Ba.conteudo, self.Ba.op)
+                if self.Ba.conteudo not in self.player.inventario:
                     self.player.inventario[B.conteudo]=1
                 else:
-                    self.player.inventario[Ba.conteudo]+=1
-                while abrindo == True:
-                    text_surface = settings.fonte.render("voce ganhou 1 {0}".format(Ba.conteudo), True, settings.BRANCO)
+                    self.player.inventario[self.Ba.conteudo]+=1
+                while self.abrindo == True:
+                    text_surface = settings.fonte.render("voce ganhou 1 {0}".format(self.Ba.conteudo), True, settings.BRANCO)
                     text_rect = text_surface.get_rect()
                     text_rect.midtop = (settings.WIDTH / 2,  3)
                     self.screen.blit(text_surface, text_rect)
                     if event.key == pg.K_SPACE:
-                        abrindo = False
+                        self.abrindo = False
 
     def show_start_screen(self):
         pass
