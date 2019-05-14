@@ -3,7 +3,7 @@ from os import path
 pg.font.init()
 
 BRANCO = (255, 255, 255)
-BLACK = (0, 0, 0)
+PRETO = (0, 0, 0)
 CINZA_ESC = (40, 40, 40)
 CINZA_CLA = (100, 100, 100)
 VERDE = (0, 255, 0)
@@ -17,6 +17,7 @@ HEIGHT = 800  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITULO = "EP pré-alfa"
 BGCOLOR = CINZA_ESC
+BG_COMBAT_COLOR = PRETO
 
 TILESIZE = 32
 GRIDWIDTH = WIDTH / TILESIZE
