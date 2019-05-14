@@ -35,7 +35,7 @@ class Combat:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))###MUDAR PARA IMAGEM
-        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
+        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()###
     def run(self):
         # game loop - set self.playing = False to end the game
         self.playing = True
