@@ -108,7 +108,7 @@ class Game:
                 self.Ba.op = True
                 sprites.Bau(self, self.Ba.x, self.Ba.y, self.Ba.conteudo, self.Ba.op)
                 if self.Ba.conteudo not in self.player.inventario:
-                    self.player.inventario[B.conteudo]=1
+                    self.player.inventario[self.Ba.conteudo]=1
                 else:
                     self.player.inventario[self.Ba.conteudo]+=1
                 while self.abrindo == True:
