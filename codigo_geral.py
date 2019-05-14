@@ -6,6 +6,7 @@ import sprites
 import tilemap
 lista_baus=[[18,5,"tal item"]]
 class Game:
+    abrindo=False
     def __init__(self):
         pg.init()
         self.screen = pg.display.set_mode((settings.WIDTH, settings.HEIGHT))
@@ -67,51 +68,56 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
-
-    def events(self):
+    def events(self, abrindo):
+        if abrindo == False:
         # catch all events here
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
                     self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                    self.player.rot=180
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=1)
-                    self.player.rot=0
-                if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
-                    self.player.rot=90
-                if event.key == pg.K_DOWN:
-                    self.player.move(dy=1)
-                    self.player.rot=270
-                if event.key == pg.K_SPACE:
-                    if self.player.rot == 0:
-                        ver = [self.player.x+1, self.player.y]
-                    elif self.player.rot == 90:
-                        ver = [self.player.x, self.player.y-1]
-                    elif self.player.rot == 180:
-                        ver = [self.player.x-1, self.player.y]
-                    elif self.player.rot == 270:
-                        ver = [self.player.x, self.player.y+1]
-                    for B in self.baus:
-                        if B.x == ver[0] and B.y == ver[1]:
-                            if B.aberto == False:
-                                B.op = True
-                                sprites.Bau(self, B.x, B.y, B.conteudo, B.op)
-                                if B.conteudo not in self.player.inventario:
-                                    self.player.inventario[B.conteudo]=1
-                                else:
-                                    self.player.inventario[B.conteudo]+=1
-                                text_surface = settings.fonte.render("voce ganhou 1 {0}".format(B.conteudo), True, settings.BRANCO)
-                                text_rect = text_surface.get_rect()
-                                text_rect.midtop = (settings.WIDTH / 2,  3)
-                                self.screen.blit(text_surface, text_rect)
-                                #if event.key == pg.K_SPACE:
-                                    
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                    if event.key == pg.K_LEFT:
+                        self.player.move(dx=-1)
+                        self.player.rot=180
+                    if event.key == pg.K_RIGHT:
+                        self.player.move(dx=1)
+                        self.player.rot=0
+                    if event.key == pg.K_UP:
+                        self.player.move(dy=-1)
+                        self.player.rot=90
+                    if event.key == pg.K_DOWN:
+                        self.player.move(dy=1)
+                        self.player.rot=270
+                    if event.key == pg.K_SPACE:
+                        if self.player.rot == 0:
+                            ver = [self.player.x+1, self.player.y]
+                        elif self.player.rot == 90:
+                            ver = [self.player.x, self.player.y-1]
+                        elif self.player.rot == 180:
+                            ver = [self.player.x-1, self.player.y]
+                        elif self.player.rot == 270:
+                            ver = [self.player.x, self.player.y+1]
+                        for B in self.baus:
+                            if B.x == ver[0] and B.y == ver[1]:
+                                if B.aberto == False:
+                                    abrindo = True
+                                    Ba=B
+        if abrindo == True:
+            for event in pg.event.get():
+                Ba.op = True
+                sprites.Bau(self, Ba.x, Ba.y, Ba.conteudo, B.op)
+                if Ba.conteudo not in self.player.inventario:
+                    self.player.inventario[B.conteudo]=1
+                else:
+                    self.player.inventario[Ba.conteudo]+=1
+                while abrindo == True:
+                    text_surface = settings.fonte.render("voce ganhou 1 {0}".format(Ba.conteudo), True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  3)
+                    self.screen.blit(text_surface, text_rect)
+                    if event.key == pg.K_SPACE:
+                        abrindo = False
 
     def show_start_screen(self):
         pass
