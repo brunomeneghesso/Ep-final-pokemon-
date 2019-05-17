@@ -21,6 +21,8 @@ class Game:
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert()
+        self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
+        self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
