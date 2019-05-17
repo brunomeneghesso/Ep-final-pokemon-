@@ -60,7 +60,10 @@ class Game:
             pg.draw.line(self.screen, settings.CINZA_CLA, (x, 0), (x, settings.HEIGHT))
         for y in range(0, settings.HEIGHT, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
-
+    def combate(self):
+        import combate
+        combate.Combat
+        
     def draw(self):
         self.screen.fill(settings.BGCOLOR)
         self.draw_grid()
@@ -89,6 +92,8 @@ class Game:
                     if event.key == pg.K_DOWN:
                         self.player.move(dy=1)
                         self.player.rot=270
+                    if event.key == pg.K_c:
+                        self.combate()
                     if event.key == pg.K_SPACE:
                         if self.player.rot == 0:
                             ver = [self.player.x+1, self.player.y]
@@ -119,11 +124,18 @@ class Game:
                     if event.key == pg.K_SPACE:
                         self.abrindo = False
 
+        
+        
+        
+        
+        
+
     def show_start_screen(self):
         pass
 
     def show_go_screen(self):
         pass
+    
 
 # create the game object
 g = Game()
