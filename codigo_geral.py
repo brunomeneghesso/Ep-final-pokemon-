@@ -60,8 +60,8 @@ class Game:
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
         import combate
-        combate.Combat
-        
+        c = combate.Combat(self.screen) 
+        c.run()
     def draw(self):
         self.screen.fill(settings.BGCOLOR)
         self.draw_grid()

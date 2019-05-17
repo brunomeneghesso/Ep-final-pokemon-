@@ -8,9 +8,10 @@ import sprites
 import tilemap
 
 class Combat:
-    def __init__(self):
+    def __init__(self, screen):
         self.run()
-    """    
+        self.screen = screen
+ 
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
@@ -28,7 +29,7 @@ class Combat:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))###MUDAR PARA IMAGEM
-        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()###"""
+        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()###
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -45,9 +46,12 @@ class Combat:
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
         pg.display.flip()
+    def update(self):
+        self.all_sprites.update()
+        self.camera.update(self.player)
 
     def events(self):
-        # catch all events here
+        # catch all events here//
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
