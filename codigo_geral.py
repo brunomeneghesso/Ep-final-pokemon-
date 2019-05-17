@@ -4,7 +4,7 @@ from os import path
 import settings
 import sprites
 import tilemap
-lista_baus=[[18,5,"tal item"]] 
+lista_baus=[[18,5,"tal item"], [18,1,"outro item"], [6,6,"easter egg"]] 
 class Game:
     def __init__(self):
         pg.init()
@@ -114,13 +114,14 @@ class Game:
                 self.player.inventario[self.Ba.conteudo]=1
             else:
                 self.player.inventario[self.Ba.conteudo]+=1
-                
             text_surface = settings.fonte.render("voce ganhou 1 {0}".format(self.Ba.conteudo), True, settings.BRANCO)
             text_rect = text_surface.get_rect()
-            text_rect.midtop = (settings.WIDTH / 2,  3)
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT / 2)
             self.screen.blit(text_surface, text_rect)
             
             for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE:
                         self.abrindo = False

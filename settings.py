@@ -13,7 +13,7 @@ AMARELO_ESC = (200,150,0)
 
 # game settings
 WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 800  # 16 * 48 or 32 * 24 or 64 * 12
+HEIGHT = 636  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITULO = "EP pré-alfa"
 BGCOLOR = CINZA_ESC
