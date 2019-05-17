@@ -60,8 +60,9 @@ class Game:
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
         import combate
-        c = combate.Combat(self.screen) 
+        c = combate.Combat(self.screen, self.all_sprites, self.camera, self.player)
         c.run()
+            
     def draw(self):
         self.screen.fill(settings.BGCOLOR)
         self.draw_grid()
@@ -72,7 +73,6 @@ class Game:
     def events(self):
         if not self.abrindo:
         # catch all events here
-            print('bbb')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
@@ -92,6 +92,7 @@ class Game:
                         self.player.move(dy=1)
                         self.player.rot=270
                     if event.key == pg.K_c:
+                        self.save=[self.all_sprites, self.camera]
                         self.combate()
                     if event.key == pg.K_SPACE:
                         if self.player.rot == 0:
@@ -108,7 +109,6 @@ class Game:
                                     self.Ba=B
                                     self.abrindo = True
         elif self.abrindo == True: 
-            print('aaa')
             self.Ba.abre()
             if self.Ba.conteudo not in self.player.inventario:
                 self.player.inventario[self.Ba.conteudo]=1
@@ -144,4 +144,4 @@ g.show_start_screen()
 while True:
     g.new()
     g.run()
-    g.show_go_screen()
+g.show_go_screen()
