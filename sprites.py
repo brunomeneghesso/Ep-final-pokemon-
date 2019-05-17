@@ -41,11 +41,11 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
 class Bau(pg.sprite.Sprite):
-    def __init__(self, game, x, y, item, op):
+    def __init__(self, game, x, y, item):
         self.groups = game.all_sprites, game.baus, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.aberto = op
+        self.aberto = False
         self.image = pg.Surface((settings.TILESIZE, settings.TILESIZE))
         if self.aberto == False:
             self.image.fill(settings.AMARELO)
@@ -57,6 +57,13 @@ class Bau(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         self.conteudo = item
+    def abre (self):
+        self.aberto = True
+    def update (self):
+        if self.aberto == False:
+            self.image.fill(settings.AMARELO)
+        else:
+            self.image.fill(settings.AMARELO_ESC)
 class Monstro(pg.sprite.Sprite):
     def __init__(self, game, nome, tipo, move_pool, imagem, crescimento, explv):
         self.groups = game.all_sprites

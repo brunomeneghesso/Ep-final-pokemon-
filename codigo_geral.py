@@ -28,7 +28,7 @@ class Game:
         self.baus = pg.sprite.Group()
         self.player = pg.sprite.Group()
         for l in lista_baus:
-            sprites.Bau(self, l[0], l[1], l[2], False)
+            sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
@@ -38,7 +38,6 @@ class Game:
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
     def run(self):
-        # game loop - set self.playing = False to end the game
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(settings.FPS) / 1000.0
@@ -51,7 +50,6 @@ class Game:
         sys.exit()
 
     def update(self):
-        # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
 
@@ -71,6 +69,7 @@ class Game:
     def events(self):
         if not self.abrindo:
         # catch all events here
+            print('bbb')
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
@@ -103,19 +102,21 @@ class Game:
                                 if B.aberto == False:
                                     self.Ba=B
                                     self.abrindo = True
-        if self.abrindo == True: 
+        elif self.abrindo == True: 
+            print('aaa')
+            self.Ba.abre()
+            if self.Ba.conteudo not in self.player.inventario:
+                self.player.inventario[self.Ba.conteudo]=1
+            else:
+                self.player.inventario[self.Ba.conteudo]+=1
+                
+            text_surface = settings.fonte.render("voce ganhou 1 {0}".format(self.Ba.conteudo), True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  3)
+            self.screen.blit(text_surface, text_rect)
+            
             for event in pg.event.get():
-                self.Ba.op = True
-                sprites.Bau(self, self.Ba.x, self.Ba.y, self.Ba.conteudo, self.Ba.op)
-                if self.Ba.conteudo not in self.player.inventario:
-                    self.player.inventario[self.Ba.conteudo]=1
-                else:
-                    self.player.inventario[self.Ba.conteudo]+=1
-                while self.abrindo == True:
-                    text_surface = settings.fonte.render("voce ganhou 1 {0}".format(self.Ba.conteudo), True, settings.BRANCO)
-                    text_rect = text_surface.get_rect()
-                    text_rect.midtop = (settings.WIDTH / 2,  3)
-                    self.screen.blit(text_surface, text_rect)
+                if event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE:
                         self.abrindo = False
 
