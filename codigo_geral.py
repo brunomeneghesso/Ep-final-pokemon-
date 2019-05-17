@@ -17,9 +17,10 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'img')
+        img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
+        self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
