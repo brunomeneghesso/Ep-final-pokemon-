@@ -4,7 +4,7 @@ from os import path
 import settings
 import sprites
 import tilemap
-lista_baus=[[18,5,"tal item"], [18,1,"outro item"], [6,6,"easter egg"]] 
+lista_baus=[[18,5,"batata frita"], [18,1,"xicara de cafe"], [6,6,"orelha do papai noel"]] 
 class Game:
     def __init__(self):
         pg.init()
