@@ -79,7 +79,7 @@ class Game:
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         if self.abrindo == True:
-            pg.draw.rect(self.screen, settings.CINZA_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
+            pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
             text_surface = settings.fonte.render("Você ganhou 1 {0}!".format(self.Ba.conteudo), True, settings.BRANCO)
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
