@@ -84,15 +84,16 @@ class Criatura(Monstro):
         self.lv = lv
         self.exp = exp
         self.monstro=monstro
+    def sofre_dano(self,dano):
+        self.monstro.hp-=dano
 class Golpes():
-    def __init__(self, game, tipo, dano, bonus):
+    def __init__(self, game, tipo, dano):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.rect = self.image.get_rect()
         self.tipo = tipo
         self.dano = dano
-        self.bonus = bonus
         
         
         

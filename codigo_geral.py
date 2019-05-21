@@ -20,11 +20,13 @@ class Game:
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
-
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
+    
+    def coloca_monstros(self):
+        monstro_teste = sprites.Monstro(self, 'teste', 'teste1', 1, 10, 50, [testeMov], 'imgteste.png', [1,1,1], 1)
 
 
     def new(self):
