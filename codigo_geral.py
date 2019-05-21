@@ -129,11 +129,11 @@ class Game:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
-                if event.key == pg.K_ESCAPE:
-                        self.quit()
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_SPACE:
-                        self.abrindo = False
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                        if event.key == pg.K_SPACE:
+                            self.abrindo = False
 
         
         
