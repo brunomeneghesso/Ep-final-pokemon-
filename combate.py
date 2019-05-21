@@ -7,7 +7,7 @@ import settings
 import sprites
 import tilemap
 
-class Combat:
+class Combate_central:
     def __init__(self, screen, all_sprites, camera, player):
         self.new()
         self.screen = screen
