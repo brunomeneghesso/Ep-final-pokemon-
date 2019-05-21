@@ -20,9 +20,16 @@ class Game:
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
+
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
+
+        self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert()
+        #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
+        #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
+        self.font=settings.fonte
+
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -71,6 +78,12 @@ class Game:
         self.draw_grid()
         for sprite in self.all_sprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+        if self.abrindo == True:
+            pg.draw.rect(self.screen, settings.CINZA_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
+            text_surface = settings.fonte.render("Você ganhou 1 {0}!".format(self.Ba.conteudo), True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
+            self.screen.blit(text_surface, text_rect)
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
     def events(self):
@@ -117,14 +130,11 @@ class Game:
                 self.player.inventario[self.Ba.conteudo]=1
             else:
                 self.player.inventario[self.Ba.conteudo]+=1
-            text_surface = settings.fonte.render("voce ganhou 1 {0}".format(self.Ba.conteudo), True, settings.BRANCO)
-            text_rect = text_surface.get_rect()
-            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT / 2)
-            self.screen.blit(text_surface, text_rect)
-            
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
+                if event.key == pg.K_ESCAPE:
+                        self.quit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_SPACE:
                         self.abrindo = False
