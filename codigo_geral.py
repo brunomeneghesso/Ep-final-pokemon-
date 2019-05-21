@@ -24,10 +24,6 @@ class Game:
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
-
-        self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert()
-        #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
-        #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
 
 
