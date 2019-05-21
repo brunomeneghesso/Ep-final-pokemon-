@@ -10,6 +10,7 @@ VERDE = (0, 255, 0)
 VERMELHO = (255, 0, 0)
 AMARELO = (255, 255, 0)
 AMARELO_ESC = (200,150,0)
+MARROM_ESC = (79,49,7)
 
 # game settings
 WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16
