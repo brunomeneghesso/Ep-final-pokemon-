@@ -18,19 +18,20 @@ class Game:
         self.abrindo = False
 
     def coloca_monstros(self):
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'Textures')
         self.superEf=sprites.Tipo([],[])
         self.poucoEf=sprites.Tipo([],[])
         self.neutro=sprites.Tipo([],[])
-        self.testeTip = sprites.Tipo([self.poucoEf][self.superEf])
+        self.testeTip = sprites.Tipo([self.poucoEf],[self.superEf])
         
         self.testeMov=sprites.Golpes('golpe neutro',self.neutro, 10)
         self.testeSuper=sprites.Golpes('super efetivo', self.superEf, 10)
         self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
         self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
         
-        self.monstro_teste = sprites.Monstro(self, self.testeTip, 'teste1', 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 'imgteste.png', [1,1,1], 1)
+        self.monstro_teste = sprites.Monstro(self.testeTip, 'teste1', 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
 
-        self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
                 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -41,7 +42,7 @@ class Game:
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
-        self.coloca_monstros
+        self.coloca_monstros()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -55,8 +56,11 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     sprites.Wall(self, col, row)
+                    
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
+                    self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
+        
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
     def run(self):

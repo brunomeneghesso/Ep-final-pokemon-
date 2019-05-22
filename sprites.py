@@ -78,15 +78,12 @@ class Bau(pg.sprite.Sprite):
         else:
             self.image.fill(settings.AMARELO_ESC)
 class Monstro(pg.sprite.Sprite):
-    def __init__(self, game, nome, tipo, ataque, defesa, vida, move_pool, imagem, crescimento, explv):
-        self.groups = game.all_sprites
-        pg.sprite.Sprite.__init__(self, self.groups)
+    def __init__(self, nome, tipo, ataque, defesa, vida, move_pool, imagem, crescimento, explv):
         self.nome = nome
-        self.game = game
+        self.image = imagem
         self.rect = self.image.get_rect()
         self.tipo = tipo
         self.move_pool = move_pool
-        self.image = imagem
         self.crescimento = crescimento
         self.explv = explv
         self.hp = vida
@@ -102,8 +99,6 @@ class Criatura(Monstro):
         self.monstro.hp-=dano
 class Golpes():
     def __init__(self,nome, tipo, dano):
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.rect = self.image.get_rect()
         self.nome=nome
         self.tipo = tipo
         self.dano = dano
