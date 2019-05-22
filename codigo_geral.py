@@ -4,6 +4,8 @@ from os import path
 import settings
 import sprites
 import tilemap
+import combate
+
 lista_baus=[[18,5,"batata frita"], [18,1,"xicara de cafe"], [6,6,"orelha do papai noel"]] 
 class Game:
     def __init__(self):
@@ -15,6 +17,21 @@ class Game:
         self.load_data()
         self.abrindo = False
 
+    def coloca_monstros(self):
+        self.superEf=sprites.Tipo([],[])
+        self.poucoEf=sprites.Tipo([],[])
+        self.neutro=sprites.Tipo([],[])
+        self.testeTip = sprites.Tipo([self.poucoEf][self.superEf])
+        
+        self.testeMov=sprites.Golpes('golpe neutro',self.neutro, 10)
+        self.testeSuper=sprites.Golpes('super efetivo', self.superEf, 10)
+        self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
+        self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
+        
+        self.monstro_teste = sprites.Monstro(self, self.testeTip, 'teste1', 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 'imgteste.png', [1,1,1], 1)
+
+        self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
+                
     def load_data(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
@@ -24,10 +41,7 @@ class Game:
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
-    
-    def coloca_monstros(self):
-        monstro_teste = sprites.Monstro(self, 'teste', 'teste1', 1, 10, 50, [testeMov], 'imgteste.png', [1,1,1], 1)
-
+        self.coloca_monstros
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -67,7 +81,6 @@ class Game:
         for y in range(0, settings.HEIGHT, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
-        import combate
         c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player)
         c.run()
             
@@ -122,20 +135,20 @@ class Game:
                                 if B.aberto == False:
                                     self.Ba=B
                                     self.abrindo = True
+                                    self.first = True
         elif self.abrindo == True: 
-            self.Ba.abre()
-            if self.Ba.conteudo not in self.player.inventario:
-                self.player.inventario[self.Ba.conteudo]=1
-            else:
-                self.player.inventario[self.Ba.conteudo]+=1
+            if self.first:
+                self.Ba.abre()
+                self.player.ganha_item(self.Ba.conteudo)
+                self.first = False
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.quit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
                         self.quit()
-                        if event.key == pg.K_SPACE:
-                            self.abrindo = False
+                    if event.key == pg.K_SPACE:
+                        self.abrindo = False
 
         
         

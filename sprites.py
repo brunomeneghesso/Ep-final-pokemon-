@@ -12,7 +12,21 @@ class Player(pg.sprite.Sprite):
         self.y = y
         self.rot = 90
         self.inventario={}
-
+        self.party=[]
+        self.capturas=[]
+        self.partysize=4
+        
+    def ganha_item(self, item):
+        if item not in self.inventario:
+            self.inventario[item]=1
+        else:
+            self.inventario[item]+=1
+    
+    def captura(self, criatura):
+        self.capturas.append(criatura)
+        if len(self.party)<=self.partysize:
+            self.party.append(criatura)
+            
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
             self.x += dx
@@ -87,13 +101,15 @@ class Criatura(Monstro):
     def sofre_dano(self,dano):
         self.monstro.hp-=dano
 class Golpes():
-    def __init__(self, game, tipo, dano):
-        self.groups = game.all_sprites
+    def __init__(self,nome, tipo, dano):
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
         self.rect = self.image.get_rect()
+        self.nome=nome
         self.tipo = tipo
         self.dano = dano
-        
+class Tipo():
+    def __init__(self, resistencia, fraqueza):
+        self.resistencia=resistencia
+        self.fraquesa=fraqueza
         
         
