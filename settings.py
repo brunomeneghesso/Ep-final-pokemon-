@@ -11,6 +11,7 @@ VERMELHO = (255, 0, 0)
 AMARELO = (255, 255, 0)
 AMARELO_ESC = (200,150,0)
 MARROM_ESC = (79,49,7)
+BEJE = (234,186,75)
 
 # game settings
 WIDTH = 1056   # 16 * 64 or 32 * 32 or 64 * 16
@@ -26,3 +27,6 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 fnt_dir = path.join(path.dirname(__file__), 'fnt')
 fonte = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 48)
+fonte_combate = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 32)
+fonte_legenda = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 16)
+

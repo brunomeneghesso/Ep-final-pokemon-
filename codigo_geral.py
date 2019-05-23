@@ -88,7 +88,8 @@ class Game:
         for y in range(0, settings.HEIGHT, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
-        c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player)
+        mato_teste = sprites.Mato(self,1,1,[self.monstro_teste],1,1)
+        c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player, mato_teste)
         c.run()
             
     def draw(self):
