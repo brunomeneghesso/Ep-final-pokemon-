@@ -49,6 +49,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.baus = pg.sprite.Group()
+        self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         for l in lista_baus:
             sprites.Bau(self, l[0], l[1], l[2])
@@ -56,11 +57,14 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == '1':
                     sprites.Wall(self, col, row)
-                    
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
                     self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
-        
+        for X in range(28,78):
+            for Y in range(1,11):
+                sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
+                    
+
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
     def run(self):
@@ -78,14 +82,14 @@ class Game:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
-
     def draw_grid(self):
         for x in range(0, settings.WIDTH, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (x, 0), (x, settings.HEIGHT))
         for y in range(0, settings.HEIGHT, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
-        c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player)
+        mato_teste = sprites.Mato(self,1,1,[self.monstro_teste],1,1)
+        c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player, mato_teste)
         c.run()
             
     def draw(self):
