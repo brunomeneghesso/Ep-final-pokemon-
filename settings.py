@@ -27,6 +27,6 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 fnt_dir = path.join(path.dirname(__file__), 'fnt')
 fonte = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 48)
-fonte_combate = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 32)
-fonte_legenda = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 16)
+fonte_combate = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 40)
+fonte_legenda = pg.font.Font(path.join(fnt_dir, "Cardinal.ttf"), 20)
 

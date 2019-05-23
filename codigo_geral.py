@@ -42,6 +42,8 @@ class Game:
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
+        self.font40=settings.fonte_combate
+        self.font20=settings.fonte_legenda
         self.coloca_monstros()
 
     def new(self):
@@ -89,7 +91,7 @@ class Game:
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
         mato_teste = sprites.Mato(self,1,1,[self.monstro_teste],1,1)
-        c = combate.Combate_central(self.screen, self.all_sprites, self.camera, self.player, mato_teste)
+        c = combate.Combate_central(self, self.screen, self.all_sprites, self.camera, self.player, mato_teste)
         c.run()
             
     def draw(self):
@@ -99,7 +101,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         if self.abrindo == True:
             pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
-            text_surface = settings.fonte.render("Você ganhou 1 {0}!".format(self.Ba.conteudo), True, settings.BRANCO)
+            text_surface = self.font.render("Você ganhou 1 {0}!".format(self.Ba.conteudo), True, settings.BRANCO)
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
             self.screen.blit(text_surface, text_rect)

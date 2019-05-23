@@ -9,8 +9,9 @@ import tilemap
 import random
 
 class Combate_central:
-    def __init__(self, screen, all_sprites, camera, player, mato):
+    def __init__(self, game, screen, all_sprites, camera, player, mato):
         self.new()
+        self.game = game
         self.screen = screen
         self.all_sprites = all_sprites
         self.camera = camera
@@ -31,7 +32,6 @@ class Combate_central:
         pass
     
     def load_data(self):
-        pass
         """
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'img')
@@ -65,6 +65,16 @@ class Combate_central:
             pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6/5-12, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
             pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
             pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+            
+            text_surface = self.game.font20.render("A", True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH/10-2, settings.HEIGHT*2/3+settings.HEIGHT/6/5-8)
+            self.screen.blit(text_surface, text_rect)
+            
+            text_surface = self.game.font.render("Atacar", True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6/5+8)
+            self.screen.blit(text_surface, text_rect)
         if self.condicao == 'combate':
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
