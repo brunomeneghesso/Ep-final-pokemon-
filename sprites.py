@@ -31,7 +31,15 @@ class Player(pg.sprite.Sprite):
         if not self.collide_with_walls(dx, dy):
             self.x += dx
             self.y += dy
-
+        if self.testa_combate(dx, dy):
+            print('ta certo') 
+    
+    def testa_combate(self, dx=0, dy=0):
+        for m in self.game.mato:
+            if m.x == self.x + dx and m.y == self.y + dy:
+                return True
+        return False
+        
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
             if wall.x == self.x + dx and wall.y == self.y + dy:
@@ -106,5 +114,14 @@ class Tipo():
     def __init__(self, resistencia, fraqueza):
         self.resistencia=resistencia
         self.fraquesa=fraqueza
+class Mato(pg.sprite.Sprite):
+    def __init__(self, game, x, y, monstros, lvmin, lvmax):
+        self.groups = game.mato
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.x = x
+        self.y = y
+        self.monstros = monstros
+        self.lvmin = lvmin
+        self.lvmax = lvmax
         
         
