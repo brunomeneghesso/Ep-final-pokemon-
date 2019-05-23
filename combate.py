@@ -9,14 +9,14 @@ import tilemap
 
 class Combate_central:
     def __init__(self, screen, all_sprites, camera, player):
-        self.new()
+        self.combate()
         self.screen = screen
         self.all_sprites = all_sprites
         self.camera = camera
         self.player = player
 
-    def new(self):
-        # initialize all variables and do all the setup for a new game
+    def combate(self):
+        ###ESTRUTURA DE COMBATE###
         pass
     
     def load_data(self):
