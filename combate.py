@@ -166,7 +166,7 @@ class Combate_central:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
-
+        """
     def atacar(self,golpe):
         c=0
         while c<3:
@@ -177,7 +177,7 @@ class Combate_central:
             dano = golpe.dano*(M.atk+M.ganho[0]*(lvp-1)) - (A.df+A.crescimento*(lva-1))
             if dano>0:
                 self.adversario.sofre_dano(dano)
-                
+                """
         
     def events(self):
         # catch all events here//
@@ -200,13 +200,13 @@ class Combate_central:
                         self.goback()
                 if self.condicao == 'combate':
                     if event.key == pg.K_q:
-                        
+                        pass
                     if event.key == pg.K_w:
-                        
+                        pass
                     if event.key == pg.K_e:
-                        
+                        pass
                     if event.key == pg.K_r:
-                        
+                        pass
                     if event.key == pg.K_SPACE:
                         self.condicao = 'escolha'
                         
