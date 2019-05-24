@@ -167,6 +167,18 @@ class Combate_central:
         self.all_sprites.update()
         self.camera.update(self.player)
 
+    def atacar(self,golpe):
+        c=0
+        while c<3:
+            M = self.criaturaP.monstro
+            lvp = self.criaturaP.lv
+            A = self.adversario.monstro
+            lva = self.adversario.lv
+            dano = golpe.dano*(M.atk+M.ganho[0]*(lvp-1)) - (A.df+A.crescimento*(lva-1))
+            if dano>0:
+                self.adversario.sofre_dano(dano)
+                
+        
     def events(self):
         # catch all events here//
         for event in pg.event.get():
@@ -186,23 +198,15 @@ class Combate_central:
                         self.condicao = 'trocar'
                     if event.key == pg.K_SPACE:
                         self.goback()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                if self.condicao == 'combate':
+                    if event.key == pg.K_q:
+                        
+                    if event.key == pg.K_w:
+                        
+                    if event.key == pg.K_e:
+                        
+                    if event.key == pg.K_r:
+                        
+                    if event.key == pg.K_SPACE:
+                        self.condicao = 'escolha'
+                        

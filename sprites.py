@@ -103,8 +103,10 @@ class Criatura(Monstro):
         self.lv = lv
         self.exp = exp
         self.monstro=monstro
+        self.hp=self.monstro.hp
+        
     def sofre_dano(self,dano):
-        self.monstro.hp-=dano
+        self.hp-=dano
 class Golpes():
     def __init__(self,nome, tipo, dano):
         self.nome=nome
