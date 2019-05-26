@@ -30,15 +30,21 @@ class Game:
         self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
         self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
         
+
         self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
+        self.monstro_teste = sprites.Monstro([self.testeTip], 'teste1', 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
 
                 
     def load_data(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
-        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()
+        self.player_img_up = pg.image.load(path.join(img_folder, "char_up.png")).convert_alpha()
+        self.player_img_down = pg.image.load(path.join(img_folder, "char_down.png")).convert_alpha()
+        self.player_img_left = pg.image.load(path.join(img_folder, "char_left.png")).convert_alpha()
+        self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
+        self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
         #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
         #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
@@ -53,12 +59,17 @@ class Game:
         self.baus = pg.sprite.Group()
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
+        
+        for row, tiles in enumerate(self.map.data):
+            for col, tile in enumerate(tiles):
+                if tile == '.' or tile == 'P':
+                    sprites.Ground(self, col, row)
+                if tile == '1':
+                    sprites.Wall(self, col, row)
         for l in lista_baus:
             sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '1':
-                    sprites.Wall(self, col, row)
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
                     self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
@@ -117,17 +128,13 @@ class Game:
                     if event.key == pg.K_ESCAPE:
                         self.quit()
                     if event.key == pg.K_LEFT:
-                        self.player.move(dx=-1)
-                        self.player.rot=180
+                        self.player.move(dx=-1,rodar=180)
                     if event.key == pg.K_RIGHT:
-                        self.player.move(dx=1)
-                        self.player.rot=0
+                        self.player.move(dx=1,rodar=0)
                     if event.key == pg.K_UP:
-                        self.player.move(dy=-1)
-                        self.player.rot=90
+                        self.player.move(dy=-1,rodar=90)
                     if event.key == pg.K_DOWN:
-                        self.player.move(dy=1)
-                        self.player.rot=270
+                        self.player.move(dy=1,rodar=270)
                     if event.key == pg.K_c:
                         self.save=[self.all_sprites, self.camera]
                         self.combate()

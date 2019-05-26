@@ -6,11 +6,11 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.player_img
+        self.rot = 90
+        self.image = game.player_img_up
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rot = 90
         self.inventario={}
         self.party=[]
         self.capturas=[]
@@ -27,10 +27,11 @@ class Player(pg.sprite.Sprite):
         if len(self.party)<=self.partysize:
             self.party.append(criatura)
             
-    def move(self, dx=0, dy=0):
+    def move(self, dx=0, dy=0, rodar=90):
         if not self.collide_with_walls(dx, dy):
             self.x += dx
             self.y += dy
+        self.rot=rodar
         if self.testa_combate(dx, dy):
             print('ta certo') 
     
@@ -49,6 +50,14 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.rect.x = self.x * settings.TILESIZE
         self.rect.y = self.y * settings.TILESIZE
+        if self.rot == 90:
+            self.image = self.game.player_img_up
+        if self.rot == 0:
+            self.image = self.game.player_img_right
+        if self.rot == 180:
+            self.image = self.game.player_img_left
+        if self.rot == 270:
+            self.image = self.game.player_img_down
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -61,6 +70,19 @@ class Wall(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
+        
+class Ground(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.ground_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+        
 class Bau(pg.sprite.Sprite):
     def __init__(self, game, x, y, item):
         self.groups = game.all_sprites, game.baus, game.walls

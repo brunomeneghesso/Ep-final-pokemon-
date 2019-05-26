@@ -245,6 +245,7 @@ class Combate_central:
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
+<<<<<<< HEAD
 
     def atacar(self):
         dano = self.golpe.dano*(self.M.atk+self.M.ganho[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento*(self.lva-1))
@@ -272,6 +273,21 @@ class Combate_central:
                 dano = dano*2
         if dano>0:
             self.criaturaP.sofre_dano(dano)
+=======
+        """
+    def atacar(self,golpe):
+        c=0
+        while c<3:
+            M = self.criaturaP.monstro
+            lvp = self.criaturaP.lv
+            A = self.adversario.monstro
+            lva = self.adversario.lv
+            dano = golpe.dano*(M.atk+M.ganho[0]*(lvp-1)) - (A.df+A.crescimento*(lva-1))
+            if dano>0:
+                self.adversario.sofre_dano(dano)
+                """
+        
+>>>>>>> a126ca026fdb764cc2996593096a541a04758e1e
     def events(self):
         # catch all events here//
         for event in pg.event.get():
@@ -293,6 +309,7 @@ class Combate_central:
                         self.goback()
                 if self.condicao == 'combate':
                     if event.key == pg.K_q:
+<<<<<<< HEAD
                         self.condicao = 'atacando'
                         self.golpe = self.criaturaP.moves[0]
                         self.atacar
@@ -317,6 +334,15 @@ class Combate_central:
                             self.atacar
                         else:
                             pass
+=======
+                        pass
+                    if event.key == pg.K_w:
+                        pass
+                    if event.key == pg.K_e:
+                        pass
+                    if event.key == pg.K_r:
+                        pass
+>>>>>>> a126ca026fdb764cc2996593096a541a04758e1e
                     if event.key == pg.K_SPACE:
                         self.condicao = 'escolha'
                 if self.condicao == 'atacando':
