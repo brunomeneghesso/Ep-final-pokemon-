@@ -18,14 +18,19 @@ class Combate_central:
         self.player = player
         self.condicao = 'escolha'
         self.criaturaP = player.party[0]
-        monstro = random.choice(mato.monstros)
+        self.c = 0 
+        monstro = random.choice(mato.monstros) 
         mvset = []
         while len(mvset)<4:
             nmv = random.choice(monstro.move_pool)
             if nmv not in mvset:
                 mvset.append(nmv)
         self.adversario = sprites.Criatura(mvset, random.randint(mato.lvmin,mato.lvmax+1),0,monstro)
-        
+        self.M = self.criaturaP.monstro
+        self.lvp = self.criaturaP.lv
+        self.A = self.adversario.monstro
+        self.lva = self.adversario.lv
+        self.golpe = ''
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -54,6 +59,7 @@ class Combate_central:
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
         if self.condicao == 'escolha':
+            print(self.c)
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
             pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
@@ -107,6 +113,7 @@ class Combate_central:
             self.screen.blit(text_surface, text_rect)
             
         if self.condicao == 'combate':
+            print(self.c)
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
             pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
@@ -162,23 +169,109 @@ class Combate_central:
                 text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
                 self.screen.blit(text_surface, text_rect)
             
+        if self.condicao == 'atacando':
+            print('seu')
+            print(self.c)
+            if self.c == 0:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                text_surface = self.game.font40.render("{0} atacou o {1} adversário com {2}".format(self.M.nome, self.A.nome, self.golpe.nome), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+            
+            if self.c == 1:
+                ef=0
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                for T in self.adversario.monstro.tipo:
+                    if self.golpe.tipo in T.fraquesa:
+                        ef+=1
+                    elif self.golpe.tipo in T.resistencia:
+                        ef-=1
+                if ef>0:
+                    text_surface = self.game.font.render("Foi super efetivo!", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                elif ef<0:
+                    text_surface = self.game.font.render("Foi pouco efetivo", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                else:
+                    text_surface = self.game.font.render("Dano elemental neutro", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+        if self.condicao == 'atacado':
+            print('adversario')
+            print(self.c)
+            if self.c == 0:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                text_surface = self.game.font.render("{0} atacou seu {1} com {2}".format(self.A.nome, self.M.nome, self.golpe.nome), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
+                self.screen.blit(text_surface, text_rect)
+            
+            if self.c == 1:
+                ef=0
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                for T in self.criaturaP.monstro.tipo:
+                    if self.golpe.tipo in T.fraquesa:
+                        ef+=1
+                    elif self.golpe.tipo in T.resistencia:
+                        ef-=1
+                if ef>0:
+                    text_surface = self.game.font.render("Foi super efetivo!", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                elif ef<0:
+                    text_surface = self.game.font.render("Foi pouco efetivo", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                else:
+                    text_surface = self.game.font.render("Dano elemental neutro", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+            
+            
         pg.display.flip()
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)
 
-    def atacar(self,golpe):
-        c=0
-        while c<3:
-            M = self.criaturaP.monstro
-            lvp = self.criaturaP.lv
-            A = self.adversario.monstro
-            lva = self.adversario.lv
-            dano = golpe.dano*(M.atk+M.ganho[0]*(lvp-1)) - (A.df+A.crescimento*(lva-1))
-            if dano>0:
-                self.adversario.sofre_dano(dano)
-                
-        
+    def atacar(self):
+        dano = self.golpe.dano*(self.M.atk+self.M.ganho[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento*(self.lva-1))
+        for T in self.A.tipo:
+            if self.golpe.tipo in T.fraquesa:
+                dano = dano*2
+            elif self.golpe.tipo in T.resistencia:
+                dano = int(dano/2)
+        for T in self.M.tipo:
+            if self.golpe.tipo == T:
+                dano = dano*2
+        if dano>0:
+            self.adversario.sofre_dano(dano)
+    
+    def atacado(self):
+        self.golpe=random.choice(self.adversario.moves)
+        dano = self.golpe.dano*(self.A.atk+self.A.ganho[0]*(self.lva-1)) - (self.M.df+self.M.crescimento*(self.lvm-1))
+        for T in self.M.tipo:
+            if self.golpe.tipo in T.fraquesa:
+                dano = dano*2
+            elif self.golpe.tipo in T.resistencia:
+                dano = int(dano/2)
+        for T in self.A.tipo:
+            if self.golpe.tipo == T:
+                dano = dano*2
+        if dano>0:
+            self.criaturaP.sofre_dano(dano)
     def events(self):
         # catch all events here//
         for event in pg.event.get():
@@ -200,13 +293,44 @@ class Combate_central:
                         self.goback()
                 if self.condicao == 'combate':
                     if event.key == pg.K_q:
-                        
+                        self.condicao = 'atacando'
+                        self.golpe = self.criaturaP.moves[0]
+                        self.atacar
                     if event.key == pg.K_w:
-                        
+                        if len(self.criaturaP.moves)>=2:
+                            self.condicao = 'atacando'
+                            self.golpe = self.criaturaP.moves[1]
+                            self.atacar
+                        else:
+                            pass
                     if event.key == pg.K_e:
-                        
+                        if len(self.criaturaP.moves)>=3:
+                            self.condicao = 'atacando'
+                            self.golpe = self.criaturaP.moves[2]
+                            self.atacar
+                        else:
+                            pass
                     if event.key == pg.K_r:
-                        
+                        if len(self.criaturaP.moves)>=4:
+                            self.condicao = 'atacando'
+                            self.golpe = self.criaturaP.moves[3]
+                            self.atacar
+                        else:
+                            pass
                     if event.key == pg.K_SPACE:
                         self.condicao = 'escolha'
-                        
+                if self.condicao == 'atacando':
+                    if event.key == pg.K_SPACE:
+                        if self.c < 1:
+                            self.c+=1
+                        else:
+                            self.c=0
+                            self.condicao = 'atacado'
+                            self.atacado
+                if self.condicao == 'atacado':
+                    if event.key == pg.K_SPACE:
+                        if self.c < 1:
+                            self.c+=1
+                        else:
+                            self.c=0
+                            self.condicao = 'escolha'
