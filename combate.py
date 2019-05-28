@@ -240,7 +240,7 @@ class Combate_central:
         self.all_sprites.update()
     def atacar(self):
         print('foi seu ataque')
-        dano = self.golpe.dano*(self.M.atk+self.M.ganho[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento*(self.lva-1))
+        dano = self.golpe.dano*(self.M.atk+self.M.crescimento[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento[1]*(self.lva-1))
         for T in self.A.tipo:
             if self.golpe.tipo in T.fraquesa:
                 dano = dano*2
@@ -255,7 +255,7 @@ class Combate_central:
     def atacado(self):
         print('foi')
         self.golpe=random.choice(self.adversario.moves)
-        dano = self.golpe.dano*(self.A.atk+self.A.ganho[0]*(self.lva-1)) - (self.M.df+self.M.crescimento*(self.lvm-1))
+        dano = self.golpe.dano*(self.A.atk+self.A.crescimento[0]*(self.lva-1)) - (self.M.df+self.M.crescimento[0]*(self.lvp-1))
         for T in self.M.tipo:
             if self.golpe.tipo in T.fraquesa:
                 dano = dano*2
@@ -289,26 +289,26 @@ class Combate_central:
                 if self.condicao == 'combate':
                     if event.key == pg.K_q: 
                         self.golpe = self.criaturaP.moves[0]
-                        self.atacar
+                        self.atacar()
                         self.condicao = 'atacando'
                     if event.key == pg.K_w:
                         if len(self.criaturaP.moves)>=2:
                             self.golpe = self.criaturaP.moves[1]
-                            self.atacar
+                            self.atacar()
                             self.condicao = 'atacando'
                         else:
                             pass
                     if event.key == pg.K_e:
                         if len(self.criaturaP.moves)>=3:
                             self.golpe = self.criaturaP.moves[2]
-                            self.atacar
+                            self.atacar()
                             self.condicao = 'atacando'
                         else:
                             pass
                     if event.key == pg.K_r:
                         if len(self.criaturaP.moves)>=4:
                             self.golpe = self.criaturaP.moves[3]
-                            self.atacar
+                            self.atacar()
                             self.condicao = 'atacando'
                         else:
                             pass
@@ -320,7 +320,7 @@ class Combate_central:
                             self.c+=1
                         else:
                             self.c=0
-                            self.atacado
+                            self.atacado()
                             self.condicao = 'atacado'
 
                 if self.condicao == 'atacado':

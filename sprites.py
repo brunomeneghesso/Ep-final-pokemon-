@@ -1,5 +1,6 @@
 import pygame as pg
 import settings
+import random
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -32,14 +33,14 @@ class Player(pg.sprite.Sprite):
             self.x += dx
             self.y += dy
         self.rot=rodar
-        if self.testa_combate(dx, dy):
-            print('ta certo') 
     
-    def testa_combate(self, dx=0, dy=0):
+    def testa_combate(self):
         for m in self.game.mato:
-            if m.x == self.x + dx and m.y == self.y + dy:
-                return True
-        return False
+            if m.x == self.x and m.y == self.y:
+                n=random.randint(0,10)
+                if n ==9:
+                    return True
+            return False
         
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
