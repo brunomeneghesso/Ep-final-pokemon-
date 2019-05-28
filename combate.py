@@ -54,7 +54,7 @@ class Combate_central:
     def quit(self):
         pg.quit()
         sys.exit()
-    def goback(self):
+    def forcegoback(self):
         self.combat = False
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
@@ -201,15 +201,15 @@ class Combate_central:
                     text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                     self.screen.blit(text_surface, text_rect)
         if self.condicao == 'atacado':
-            if self.c == 1:
+            if self.c == 0:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
                 text_surface = self.game.font.render("{0} atacou seu {1} com {2}".format(self.A.nome, self.M.nome, self.golpe.nome), True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                 self.screen.blit(text_surface, text_rect)
-            
-            if self.c == 2:
+
+            if self.c == 1:
                 ef=0
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
@@ -233,13 +233,25 @@ class Combate_central:
                     text_rect = text_surface.get_rect()
                     text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                     self.screen.blit(text_surface, text_rect)
-            
+        if self.condicao == 'falhou fugir':
+            pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+            text_surface = self.game.font.render("Você não conseguiu fugir, o inimigo foi mais rápido!", True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+            self.screen.blit(text_surface, text_rect)
+        if self.condicao == 'fugir':
+            self.goback()
             
         pg.display.flip()
+    def goback(self):
+        ASD = random.randint(0,100)
+        if ASD < 76:
+            self.combat = False
+        else:
+            self.condicao = "falhou fugir"
     def update(self):
         self.all_sprites.update()
     def atacar(self):
-        print('foi seu ataque')
         dano = self.golpe.dano*(self.M.atk+self.M.crescimento[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento[1]*(self.lva-1))
         for T in self.A.tipo:
             if self.golpe.tipo in T.fraquesa:
@@ -253,7 +265,7 @@ class Combate_central:
             self.adversario.sofre_dano(dano)
     
     def atacado(self):
-        print('foi')
+        self.c=0
         self.golpe=random.choice(self.adversario.moves)
         dano = self.golpe.dano*(self.A.atk+self.A.crescimento[0]*(self.lva-1)) - (self.M.df+self.M.crescimento[0]*(self.lvp-1))
         for T in self.M.tipo:
@@ -285,7 +297,7 @@ class Combate_central:
                     if event.key == pg.K_t:
                         self.condicao = 'trocar'
                     if event.key == pg.K_SPACE:
-                        self.goback()
+                        self.forcegoback()
                 if self.condicao == 'combate':
                     if event.key == pg.K_q: 
                         self.golpe = self.criaturaP.moves[0]
@@ -325,8 +337,12 @@ class Combate_central:
 
                 if self.condicao == 'atacado':
                     if event.key == pg.K_SPACE:
-                        if self.c < 2:
+                        if self.c < 1:
                             self.c+=1
                         else:
                             self.c=0
                             self.condicao = 'escolha'
+                if self.condicao == 'falhou fugir':
+                    if event.key == pg.K_SPACE: 
+                        self.atacado()
+                        self.condicao = 'atacado'
