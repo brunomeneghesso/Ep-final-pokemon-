@@ -59,7 +59,6 @@ class Combate_central:
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
         if self.condicao == 'escolha':
-            print(self.c)
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
             pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
@@ -113,7 +112,6 @@ class Combate_central:
             self.screen.blit(text_surface, text_rect)
             
         if self.condicao == 'combate':
-            print(self.c)
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
             pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
@@ -170,8 +168,6 @@ class Combate_central:
                 self.screen.blit(text_surface, text_rect)
             
         if self.condicao == 'atacando':
-            print('seu')
-            print(self.c)
             if self.c == 0:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
@@ -205,17 +201,15 @@ class Combate_central:
                     text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                     self.screen.blit(text_surface, text_rect)
         if self.condicao == 'atacado':
-            print('adversario')
-            print(self.c)
-            if self.c == 0:
+            if self.c == 1:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
                 text_surface = self.game.font.render("{0} atacou seu {1} com {2}".format(self.A.nome, self.M.nome, self.golpe.nome), True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
-                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                 self.screen.blit(text_surface, text_rect)
             
-            if self.c == 1:
+            if self.c == 2:
                 ef=0
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
@@ -244,10 +238,8 @@ class Combate_central:
         pg.display.flip()
     def update(self):
         self.all_sprites.update()
-        self.camera.update(self.player)
-<<<<<<< HEAD
-
     def atacar(self):
+        print('foi seu ataque')
         dano = self.golpe.dano*(self.M.atk+self.M.ganho[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento*(self.lva-1))
         for T in self.A.tipo:
             if self.golpe.tipo in T.fraquesa:
@@ -261,6 +253,7 @@ class Combate_central:
             self.adversario.sofre_dano(dano)
     
     def atacado(self):
+        print('foi')
         self.golpe=random.choice(self.adversario.moves)
         dano = self.golpe.dano*(self.A.atk+self.A.ganho[0]*(self.lva-1)) - (self.M.df+self.M.crescimento*(self.lvm-1))
         for T in self.M.tipo:
@@ -273,21 +266,7 @@ class Combate_central:
                 dano = dano*2
         if dano>0:
             self.criaturaP.sofre_dano(dano)
-=======
-        """
-    def atacar(self,golpe):
-        c=0
-        while c<3:
-            M = self.criaturaP.monstro
-            lvp = self.criaturaP.lv
-            A = self.adversario.monstro
-            lva = self.adversario.lv
-            dano = golpe.dano*(M.atk+M.ganho[0]*(lvp-1)) - (A.df+A.crescimento*(lva-1))
-            if dano>0:
-                self.adversario.sofre_dano(dano)
-                """
-        
->>>>>>> a126ca026fdb764cc2996593096a541a04758e1e
+    
     def events(self):
         # catch all events here//
         for event in pg.event.get():
@@ -308,41 +287,31 @@ class Combate_central:
                     if event.key == pg.K_SPACE:
                         self.goback()
                 if self.condicao == 'combate':
-                    if event.key == pg.K_q:
-<<<<<<< HEAD
-                        self.condicao = 'atacando'
+                    if event.key == pg.K_q: 
                         self.golpe = self.criaturaP.moves[0]
                         self.atacar
+                        self.condicao = 'atacando'
                     if event.key == pg.K_w:
                         if len(self.criaturaP.moves)>=2:
-                            self.condicao = 'atacando'
                             self.golpe = self.criaturaP.moves[1]
                             self.atacar
+                            self.condicao = 'atacando'
                         else:
                             pass
                     if event.key == pg.K_e:
                         if len(self.criaturaP.moves)>=3:
-                            self.condicao = 'atacando'
                             self.golpe = self.criaturaP.moves[2]
                             self.atacar
+                            self.condicao = 'atacando'
                         else:
                             pass
                     if event.key == pg.K_r:
                         if len(self.criaturaP.moves)>=4:
-                            self.condicao = 'atacando'
                             self.golpe = self.criaturaP.moves[3]
                             self.atacar
+                            self.condicao = 'atacando'
                         else:
                             pass
-=======
-                        pass
-                    if event.key == pg.K_w:
-                        pass
-                    if event.key == pg.K_e:
-                        pass
-                    if event.key == pg.K_r:
-                        pass
->>>>>>> a126ca026fdb764cc2996593096a541a04758e1e
                     if event.key == pg.K_SPACE:
                         self.condicao = 'escolha'
                 if self.condicao == 'atacando':
@@ -351,11 +320,12 @@ class Combate_central:
                             self.c+=1
                         else:
                             self.c=0
-                            self.condicao = 'atacado'
                             self.atacado
+                            self.condicao = 'atacado'
+
                 if self.condicao == 'atacado':
                     if event.key == pg.K_SPACE:
-                        if self.c < 1:
+                        if self.c < 2:
                             self.c+=1
                         else:
                             self.c=0
