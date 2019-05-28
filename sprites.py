@@ -33,14 +33,16 @@ class Player(pg.sprite.Sprite):
             self.x += dx
             self.y += dy
         self.rot=rodar
+        if self.testa_combate(dx, dy):
+            self.game.combate() 
     
-    def testa_combate(self):
+    def testa_combate(self, dx=0, dy=0):
         for m in self.game.mato:
-            if m.x == self.x and m.y == self.y:
-                n=random.randint(0,10)
-                if n ==9:
+            if m.x == self.x + dx and m.y == self.y + dy:
+                n = random.randint(0,10)
+                if n == 7:
                     return True
-            return False
+        return False
         
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
@@ -130,6 +132,11 @@ class Criatura(Monstro):
         
     def sofre_dano(self,dano):
         self.hp-=dano
+    def lvup(self,lva):
+        self.exp+=10*self.lv/lva
+        if self.exp>self.monstro.explv*self.lv:
+            self.exp-=self.monstro.explv*self.lv
+            self.lv+=1
 class Golpes():
     def __init__(self,nome, tipo, dano):
         self.nome=nome
