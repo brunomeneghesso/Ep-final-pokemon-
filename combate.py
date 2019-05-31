@@ -19,6 +19,10 @@ class Combate_central:
         self.condicao = 'escolha'
         self.criaturaP = player.party[0]
         self.c = 0 
+        self.disponivel = 0
+        for d in self.player.party:
+            if d.hp > 0:
+                self.disponivel+=1
         monstro = random.choice(mato.monstros) 
         mvset = []
         while len(mvset)<4:
@@ -241,7 +245,62 @@ class Combate_central:
             self.screen.blit(text_surface, text_rect)
         if self.condicao == 'fugir':
             self.goback()
+        if self.condicao == 'ganhou':
+            if self.c == 0:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                text_surface = self.game.font40.render("Você derrotou o adversário!", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
             
+            if self.c == 1:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                exp=self.criaturaP.lv/self.adversario.lv*10
+                text_surface = self.game.font40.render("Seu {0} ganhou {1} de experiência, que bom!".format(self.M.nome, exp), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+        if self.condicao == 'ganhou':
+            pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+
+            text_surface = self.game.font40.render("O inimigo derrotou seu {0}.".format(self.M.nome), True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+            self.screen.blit(text_surface, text_rect)
+        
+        if self.condicao == 'trocar':
+            if self.disponivel == 1:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+    
+                text_surface = self.game.font40.render("O inimigo derrotou seu {0}.".format(self.M.nome), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+            else:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, 0, settings.WIDTH, settings.HEIGHT])
+                
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, 32, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, 32, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/4+64, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/4+64, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)*3/4+128, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)*3/4+128, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+
+     
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, 36, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, 36, settings.WIDTH*2/5+8, settings.HEIGHT/3*2/5+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/4+72, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/4+72, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)*3/4+136, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)*3/4+136, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+
+                
         pg.display.flip()
     def goback(self):
         ASD = random.randint(0,100)
@@ -295,6 +354,10 @@ class Combate_central:
                     if event.key == pg.K_f:
                         self.condicao = 'fugir'
                     if event.key == pg.K_t:
+                        self.disponivel = 0
+                        for d in self.player.party:
+                            if d.hp > 0:
+                                self.disponivel+=1
                         self.condicao = 'trocar'
                     if event.key == pg.K_SPACE:
                         self.forcegoback()
@@ -343,7 +406,7 @@ class Combate_central:
                             self.c+=1
                         else:                                
                             self.c=0
-                            if self.M.hp == 0:
+                            if self.criaturaP.hp == 0:
                                 self.condicao = 'perdeu'
                             else:
                                 self.condicao = 'escolha'
@@ -356,5 +419,13 @@ class Combate_central:
                         if self.c == 0:
                             self.c+=1
                         elif self.c == 1:
-                            self.condicao = 'captura' 
+                            self.criaturaP.lvup(self.adversario.lv)
+                            self.condicao = 'captura'
+            if self.condicao == 'perdeu':
+                    if event.key == pg.K_SPACE:
+                        self.disponivel = 0
+                        for d in self.player.party:
+                            if d.hp > 0:
+                                self.disponivel+=1
+                        self.condicao = 'trocar' 
 
