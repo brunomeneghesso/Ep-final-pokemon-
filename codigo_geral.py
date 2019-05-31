@@ -5,7 +5,6 @@ import settings
 import sprites
 import tilemap
 import combate
-
 lista_baus=[[18,5,"batata frita"], [18,1,"xicara de cafe"], [6,6,"orelha do papai noel"]] 
 class Game:
     def __init__(self):
@@ -16,6 +15,7 @@ class Game:
         pg.key.set_repeat(200,100)
         self.load_data()
         self.abrindo = False
+        
 
     def coloca_monstros(self):
         game_folder = path.dirname(__file__)
@@ -34,6 +34,7 @@ class Game:
 
                 
     def load_data(self):
+        self.game_over = False
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
@@ -127,6 +128,8 @@ class Game:
                         self.quit()
                     if event.key == pg.K_LEFT:
                         self.player.move(dx=-1,rodar=180)
+                    if event.key == pg.K_g:
+                        self.morte()
                     if event.key == pg.K_RIGHT:
                         self.player.move(dx=1,rodar=0)
                     if event.key == pg.K_UP:
@@ -164,7 +167,9 @@ class Game:
                         self.quit()
                     if event.key == pg.K_SPACE:
                         self.abrindo = False
-
+    def morte(self):
+        self.playing = False
+        self.game_over = True
         
         
         
@@ -181,7 +186,8 @@ class Game:
 # create the game object
 g = Game()
 g.show_start_screen()
-while True:
+while not g.game_over:
     g.new()
     g.run()
 g.show_go_screen()
+pg.quit()
