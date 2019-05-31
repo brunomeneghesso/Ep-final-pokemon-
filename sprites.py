@@ -92,11 +92,10 @@ class Bau(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.aberto = False
-        self.image = pg.Surface((settings.TILESIZE, settings.TILESIZE))
         if self.aberto == False:
-            self.image.fill(settings.AMARELO)
+            self.image=self.game.bau_f_img
         else:
-            self.image.fill(settings.AMARELO_ESC)
+            self.image=self.game.bau_a_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

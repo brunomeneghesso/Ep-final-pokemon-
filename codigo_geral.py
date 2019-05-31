@@ -43,8 +43,8 @@ class Game:
         self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
-        #self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
-        #self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
+        self.bau_a_img = pg.image.load(path.join(img_folder, "bau aberto.png")).convert()
+        self.bau_f_img = pg.image.load(path.join(img_folder, "bau fechado.png")).convert()
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
