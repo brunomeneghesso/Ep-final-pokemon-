@@ -332,17 +332,29 @@ class Combate_central:
                             self.c+=1
                         else:
                             self.c=0
-                            self.atacado()
-                            self.condicao = 'atacado'
-
+                            if self.adversario.hp == 0:
+                                self.condicao = 'ganhou'
+                            else:
+                                self.atacado()
+                                self.condicao = 'atacado'
                 if self.condicao == 'atacado':
                     if event.key == pg.K_SPACE:
                         if self.c < 1:
                             self.c+=1
-                        else:
+                        else:                                
                             self.c=0
-                            self.condicao = 'escolha'
+                            if self.M.hp == 0:
+                                self.condicao = 'perdeu'
+                            else:
+                                self.condicao = 'escolha'
                 if self.condicao == 'falhou fugir':
                     if event.key == pg.K_SPACE: 
                         self.atacado()
                         self.condicao = 'atacado'
+                if self.condicao == 'ganhou':
+                    if event.key == pg.K_SPACE:
+                        if self.c == 0:
+                            self.c+=1
+                        elif self.c == 1:
+                            self.condicao = 'captura' 
+

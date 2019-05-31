@@ -106,9 +106,9 @@ class Bau(pg.sprite.Sprite):
         self.aberto = True
     def update (self):
         if self.aberto == False:
-            self.image.fill(settings.AMARELO)
+            self.image=self.game.bau_f_img
         else:
-            self.image.fill(settings.AMARELO_ESC)
+            self.image=self.game.bau_a_img
 class Monstro(pg.sprite.Sprite):
     def __init__(self, nome, tipo, ataque, defesa, vida, move_pool, imagem, crescimento, explv):
         self.nome = nome
@@ -131,6 +131,8 @@ class Criatura(Monstro):
         
     def sofre_dano(self,dano):
         self.hp-=dano
+        if self.hp < 0:
+            self.hp = 0
     def lvup(self,lva):
         self.exp+=10*self.lv/lva
         if self.exp>self.monstro.explv*self.lv:
