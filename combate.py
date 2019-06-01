@@ -35,8 +35,7 @@ class Combate_central:
         self.A = self.adversario.monstro
         self.lva = self.adversario.lv
         self.golpe = ''
-        while len(self.player.party)<8:
-            self.player.party.append(self.player.party[0])
+        self.T=True
     def new(self):
         # initialize all variables and do all the setup for a new game
         pass
@@ -365,6 +364,7 @@ class Combate_central:
                     if event.key == pg.K_t:
                         self.disponivel = 0
                         for d in self.player.party:
+                            self.T=True
                             if d.hp > 0:
                                 self.disponivel+=1
                         self.condicao = 'trocar'
@@ -431,11 +431,70 @@ class Combate_central:
                             self.criaturaP.lvup(self.adversario.lv)
                             self.condicao = 'captura'
             if self.condicao == 'perdeu':
-                    if event.key == pg.K_SPACE:
-                        self.disponivel = 0
-                        for d in self.player.party:
-                            if d.hp > 0:
-                                self.disponivel+=1
-                        self.condicao = 'trocar' 
-           # if self.condicao == trocar
-
+                if event.key == pg.K_SPACE:
+                    self.disponivel = 0
+                    for d in self.player.party:
+                        if d.hp > 0:
+                            self.disponivel+=1
+                    self.condicao = 'trocar' 
+            if self.condicao == 'trocar':
+                if event.key == pg.K_Space:
+                    if self.T:
+                        self.condicao = 'escolha'
+                if event.key == pg.K_1:
+                    if self.player.party[0].hp>0:
+                        self.criaturaP=self.player.party[0]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_2:
+                    if len(self.player.party)>=2 and self.player.party[1].hp>0:
+                        self.criaturaP=self.player.party[1]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_3:
+                    if len(self.player.party)>=3 and self.player.party[2].hp>0:
+                        self.criaturaP=self.player.party[2]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_4:
+                    if len(self.player.party)>=4 and self.player.party[3].hp>0:
+                        self.criaturaP=self.player.party[3]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_5:
+                    if len(self.player.party)>=5 and self.player.party[4].hp>0:
+                        self.criaturaP=self.player.party[4]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_6:
+                    if len(self.player.party)>=6 and self.player.party[5].hp>0:
+                        self.criaturaP=self.player.party[5]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_7:
+                    if len(self.player.party)>=7 and self.player.party[6].hp>0:
+                        self.criaturaP=self.player.party[6]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                if event.key == pg.K_8:
+                    if len(self.player.party)>=8 and self.player.party[7].hp>0:
+                        self.criaturaP=self.player.party[7]
+                        if self.T:
+                            self.condicao='atacado'
+                        else:
+                            self.condicao = 'escolha'
+                    
