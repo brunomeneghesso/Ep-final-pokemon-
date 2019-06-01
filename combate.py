@@ -35,7 +35,8 @@ class Combate_central:
         self.A = self.adversario.monstro
         self.lva = self.adversario.lv
         self.golpe = ''
-
+        while len(self.player.party)<8:
+            self.player.party.append(self.player.party[0])
     def new(self):
         # initialize all variables and do all the setup for a new game
         pass
@@ -271,19 +272,12 @@ class Combate_central:
             self.screen.blit(text_surface, text_rect)
         
         if self.condicao == 'trocar':
-            if self.disponivel == 1:
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
-    
-                text_surface = self.game.font40.render("O inimigo derrotou seu {0}.".format(self.M.nome), True, settings.BRANCO)
-                text_rect = text_surface.get_rect()
-                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
-                self.screen.blit(text_surface, text_rect)
-            else:
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, 0, settings.WIDTH, settings.HEIGHT])
+            if self.disponivel >= 1:
+                pg.draw.rect(self.screen, settings.BEJE,[0, 0, settings.WIDTH, settings.HEIGHT])
                 
                 pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, 32, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
-                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, 32, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
-                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/4+64, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, 32, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/4+64, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
                 pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/4+64, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
                 pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
                 pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
@@ -291,16 +285,31 @@ class Combate_central:
                 pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)*3/4+128, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
 
      
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, 36, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, 36, settings.WIDTH*2/5+8, settings.HEIGHT/3*2/5+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/4+72, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/4+72, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)*3/4+136, settings.WIDTH*2/5+8, (settings.HEIGHT-160)/4+8])
-                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)*3/4+136, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
-
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, 36, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, 36, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/4+68, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/4+68, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)*3/4+132, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)*3/4+132, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
                 
+                X=0
+                pos = [[settings.WIDTH*3/10-20,(settings.HEIGHT-160)/8+32],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)/8+32],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*3/8+64],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*3/8+64],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*5/8+96],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*5/8+96],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*7/8+128],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*7/8+128]]
+                for p in self.player.party:
+                    if p.hp>0:
+                        text_surface = self.game.font20.render("{0}".format(X+1), True, settings.BRANCO)
+                        text_rect = text_surface.get_rect()
+                        text_rect.center = (pos[X][0]-(settings.WIDTH/5-20),pos[X][1]-((settings.HEIGHT-160)/8-24))
+                        self.screen.blit(text_surface, text_rect)
+                        text_surface = self.game.font40.render("{0}".format(p.monstro.nome), True, settings.BRANCO)
+                    else:
+                        text_surface = self.game.font40.render("{0}".format(p.monstro.nome), True, settings.CINZA_CLA)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (pos[X][0],pos[X][1])
+                    self.screen.blit(text_surface, text_rect)
+                    X+=1
+                    
         pg.display.flip()
     def goback(self):
         ASD = random.randint(0,100)
@@ -428,4 +437,5 @@ class Combate_central:
                             if d.hp > 0:
                                 self.disponivel+=1
                         self.condicao = 'trocar' 
+           # if self.condicao == trocar
 
