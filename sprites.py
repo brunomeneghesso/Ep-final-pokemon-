@@ -12,10 +12,10 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.inventario={}
+        self.inventario={'selo de captura':10}
         self.party=[]
         self.capturas=[]
-        self.partysize=4
+        self.partysize=8
         
     def ganha_item(self, item):
         if item not in self.inventario:
@@ -24,9 +24,10 @@ class Player(pg.sprite.Sprite):
             self.inventario[item]+=1
     
     def captura(self, criatura):
-        self.capturas.append(criatura)
         if len(self.party)<=self.partysize:
             self.party.append(criatura)
+        else:
+            self.capturas.append(criatura)
             
     def move(self, dx=0, dy=0, rodar=90):
         if not self.collide_with_walls(dx, dy):

@@ -36,6 +36,9 @@ class Combate_central:
         self.lva = self.adversario.lv
         self.golpe = ''
         self.T=True
+        self.vida=self.M.hp
+        self.vidaA=self.A.hp
+        self.capturou = 'O adversário está se dissipando em energia, gostaria de sela-lo?'
     def new(self):
         # initialize all variables and do all the setup for a new game
         pass
@@ -62,6 +65,16 @@ class Combate_central:
         self.combat = False
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
+        if self.vida>self.criaturaP.hp:
+            self.vida-=1
+        if self.vidaA>self.adversario.hp:
+            self.vidaA-=1
+        x=(settings.WIDTH/4-8)*self.vida/self.criaturaP.monstro.hp
+        y=(settings.WIDTH/4-8)*self.vidaA/self.adversario.monstro.hp
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/3-28,x,24])
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH*5/8+4,settings.HEIGHT/3-28,y,24])
         if self.condicao == 'escolha':
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
@@ -308,7 +321,75 @@ class Combate_central:
                     text_rect.center = (pos[X][0],pos[X][1])
                     self.screen.blit(text_surface, text_rect)
                     X+=1
-                    
+            else:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+
+                text_surface = self.game.font40.render("Você não tem mais monstros para lutar por ao seu lado.", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+        if self.condicao == 'captura':
+            if self.c == 0:
+                pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+               
+                text_surface = self.game.font.render(self.capturou, True, settings.PRETO)
+                text_rect = text_surface.get_rect()
+                text_rect.center = (settings.WIDTH / 2,  settings.HEIGHT *9 / 12)
+                self.screen.blit(text_surface, text_rect)
+                
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+            
+                text_surface = self.game.font20.render("S", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/10-2, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                self.screen.blit(text_surface, text_rect)
+            
+                text_surface = self.game.font.render("Sim!", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font20.render("N", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+30, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font.render("Não", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                self.screen.blit(text_surface, text_rect)
+            
+            if self.c == 1:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                text_surface = self.game.font.render("Você usou um selo de captura, aida tem mais{0}".format(self.player.inventario['selo de captura']), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+            if self.c == 2:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+            text_surface = self.game.font.render(self.capturou, True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+            self.screen.blit(text_surface, text_rect)
+            if self.c == 3:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                text_surface = self.game.font.render("Você não tem mais espaço nos seus pergaminhos", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
+            
+            if self.c == 4:
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                text_surface = self.game.font.render("A criatura está no seu morelo", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
         pg.display.flip()
     def goback(self):
         ASD = random.randint(0,100)
@@ -332,6 +413,7 @@ class Combate_central:
             self.adversario.sofre_dano(dano)
     
     def atacado(self):
+        print('oi')
         self.c=0
         self.golpe=random.choice(self.adversario.moves)
         dano = self.golpe.dano*(self.A.atk+self.A.crescimento[0]*(self.lva-1)) - (self.M.df+self.M.crescimento[0]*(self.lvp-1))
@@ -345,7 +427,19 @@ class Combate_central:
                 dano = dano*2
         if dano>0:
             self.criaturaP.sofre_dano(dano)
-    
+    def tenta_captura(self):
+        if self.player.inventario['selo de captura'] > 0:
+            sucesso=random.choice([True,False])
+            if sucesso:
+                self.capturou = 'Seu selamento funcionou, você capturou o {0}'.format(self.adversario)
+                self.adversario.hp=self.adversario.monstro.hp
+                self.player.captura(self.adversario)
+                self.player.inventario['selo de captura']-=1
+            else:
+                self.capturou = 'Seu selamento falhou, a energia está livre'
+                self.c+=1
+        else:
+            self.capturou = 'Você não tem mais selos de captura, a energia se discipou'
     def events(self):
         # catch all events here//
         for event in pg.event.get():
@@ -430,6 +524,7 @@ class Combate_central:
                         elif self.c == 1:
                             self.criaturaP.lvup(self.adversario.lv)
                             self.condicao = 'captura'
+                            self.c=0
             if self.condicao == 'perdeu':
                 if event.key == pg.K_SPACE:
                     self.disponivel = 0
@@ -438,13 +533,17 @@ class Combate_central:
                             self.disponivel+=1
                     self.condicao = 'trocar' 
             if self.condicao == 'trocar':
-                if event.key == pg.K_Space:
+                if event.key == pg.K_SPACE:
+                    if self.disponivel == 0:
+                        self.game.morte
+                        self.forcegoback
                     if self.T:
-                        self.condicao = 'escolha'
+                        self.condicao = 'escolha' 
                 if event.key == pg.K_1:
                     if self.player.party[0].hp>0:
                         self.criaturaP=self.player.party[0]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -452,6 +551,7 @@ class Combate_central:
                     if len(self.player.party)>=2 and self.player.party[1].hp>0:
                         self.criaturaP=self.player.party[1]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -459,6 +559,7 @@ class Combate_central:
                     if len(self.player.party)>=3 and self.player.party[2].hp>0:
                         self.criaturaP=self.player.party[2]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -466,6 +567,7 @@ class Combate_central:
                     if len(self.player.party)>=4 and self.player.party[3].hp>0:
                         self.criaturaP=self.player.party[3]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -473,6 +575,7 @@ class Combate_central:
                     if len(self.player.party)>=5 and self.player.party[4].hp>0:
                         self.criaturaP=self.player.party[4]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -480,6 +583,7 @@ class Combate_central:
                     if len(self.player.party)>=6 and self.player.party[5].hp>0:
                         self.criaturaP=self.player.party[5]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -487,6 +591,7 @@ class Combate_central:
                     if len(self.player.party)>=7 and self.player.party[6].hp>0:
                         self.criaturaP=self.player.party[6]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
@@ -494,7 +599,37 @@ class Combate_central:
                     if len(self.player.party)>=8 and self.player.party[7].hp>0:
                         self.criaturaP=self.player.party[7]
                         if self.T:
+                            self.atacado()
                             self.condicao='atacado'
                         else:
                             self.condicao = 'escolha'
-                    
+            if self.condicao == 'captura':
+                if self.c==0:
+                    if event.key == pg.K_s:
+                        self.c+=1
+                        self.tenta_captura
+
+                    if event.key == pg.K_n:
+                        self.capturou = 'Você deixou a energia da craitura se dissipar'
+                        self.c+=2
+                if self.c==1:
+                    if event.key == pg.K_SPACE:
+                        self.c+=1
+                if self.c==2:
+                    if event.key == pg.K_SPACE:
+                        if self.capturou == 'Você deixou a energia da craitura se dissipar'   or 'Você não tem mais selos de captura, a energia se discipou':
+                            self.forcegoback
+                        if self.capturou == 'Seu selamento falhou, a energia está livre':
+                            self.capturou = 'Gostaria de tentar novamente'
+                            self.c=0
+                        if self.capturou == 'Seu selamento funcionou, você capturou o {0}'.format(self.adversario):
+                            if len (self.player.party) == self.player.partysize:
+                                self.c+=1
+                            else:
+                                self.forcegoback
+                if self.c == 3:
+                    if event.key == pg.K_SPACE:
+                        self.c+=1
+                if self.c == 4:
+                    if event.key == pg.K_SPACE:
+                        self.forcegoback
