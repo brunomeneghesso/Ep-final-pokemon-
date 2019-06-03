@@ -37,6 +37,7 @@ class Game:
     def load_data(self):
         self.game_over = False
         self.start_on = True
+        self.end_on = True
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
@@ -48,7 +49,8 @@ class Game:
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
         self.bau_a_img = pg.image.load(path.join(img_folder, "bau_aberto.png")).convert()
         self.bau_f_img = pg.image.load(path.join(img_folder, "bau_fechado.png")).convert()
-        self.inicio = pg.image.load(path.join(img_folder, "Tela de inicio.png")).convert()
+        self.inicio = pg.image.load(path.join(img_folder, "start_screen.png")).convert()
+        self.fim = pg.image.load(path.join(img_folder, "end_screen.png")).convert()
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
@@ -175,7 +177,7 @@ class Game:
         self.game_over = True
         
     def show_start_screen(self):
-        background_init = sprites.Background (self, [0,0])
+        background_init = sprites.Background_ini (self, [0,0])
         while self.start_on:
             time.sleep(0.2)
             self.screen.blit(background_init.image, background_init.rect)
@@ -184,12 +186,26 @@ class Game:
                 if event.type == pg.QUIT:
                     self.quit()
                 if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
                     if event.key == pg.K_SPACE:
                         self.start_on = False
          
 
     def show_go_screen(self):
-        pass
+        background_end = sprites.Background_end (self, [0,0])
+        while self.end_on:
+            time.sleep(0.2)
+            self.screen.blit(background_end.image, background_end.rect)
+            pg.display.flip()
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                    if event.key == pg.K_SPACE:
+                        self.end_on = False
     
 
 # create the game object
