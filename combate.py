@@ -2,10 +2,8 @@
 
 import pygame as pg
 import sys
-from os import path
 import settings
 import sprites
-import tilemap
 import random
 
 class Combate_central:
@@ -39,16 +37,6 @@ class Combate_central:
         self.vida=self.M.hp
         self.vidaA=self.A.hp
         self.capturou = 'O adversário está se dissipando em energia, gostaria de sela-lo?'
-    def new(self):
-        # initialize all variables and do all the setup for a new game
-        pass
-    
-    def load_data(self):
-        """
-        game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'img')
-        self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))###MUDAR PARA IMAGEM
-        self.player_img = pg.image.load(path.join(img_folder, "char.png")).convert_alpha()###"""
 
     def run(self):
         # game loop - set self.playing = False to end the game
