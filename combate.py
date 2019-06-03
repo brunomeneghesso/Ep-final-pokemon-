@@ -213,7 +213,7 @@ class Combate_central:
                     text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                     self.screen.blit(text_surface, text_rect)
         if self.condicao == 'atacado':
-            if self.c == 0:
+            if self.c == 1:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
                 text_surface = self.game.font.render("{0} atacou seu {1} com {2}".format(self.A.nome, self.M.nome, self.golpe.nome), True, settings.BRANCO)
@@ -221,7 +221,7 @@ class Combate_central:
                 text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                 self.screen.blit(text_surface, text_rect)
 
-            if self.c == 1:
+            if self.c == 2:
                 ef=0
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
@@ -270,7 +270,7 @@ class Combate_central:
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                 self.screen.blit(text_surface, text_rect)
-        if self.condicao == 'ganhou':
+        if self.condicao == 'perdeu':
             pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
 
             text_surface = self.game.font40.render("O inimigo derrotou seu {0}.".format(self.M.nome), True, settings.BRANCO)
@@ -366,10 +366,10 @@ class Combate_central:
                 self.screen.blit(text_surface, text_rect)
             if self.c == 2:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
-            text_surface = self.game.font.render(self.capturou, True, settings.BRANCO)
-            text_rect = text_surface.get_rect()
-            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
-            self.screen.blit(text_surface, text_rect)
+                text_surface = self.game.font.render(self.capturou, True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                self.screen.blit(text_surface, text_rect)
             if self.c == 3:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
@@ -395,7 +395,7 @@ class Combate_central:
     def update(self):
         self.all_sprites.update()
     def atacar(self):
-        dano = self.golpe.dano*(self.M.atk+self.M.crescimento[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento[1]*(self.lva-1))
+        dano = self.golpe.dano*(self.M.atk+self.M.crescimento[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento[0]*(self.lva-1))
         for T in self.A.tipo:
             if self.golpe.tipo in T.fraquesa:
                 dano = dano*2
@@ -404,11 +404,8 @@ class Combate_central:
         for T in self.M.tipo:
             if self.golpe.tipo == T:
                 dano = dano*2
-        if dano>0:
-            self.adversario.sofre_dano(dano)
-    
+        self.adversario.sofre_dano(dano)
     def atacado(self):
-        print('oi')
         self.c=0
         self.golpe=random.choice(self.adversario.moves)
         dano = self.golpe.dano*(self.A.atk+self.A.crescimento[0]*(self.lva-1)) - (self.M.df+self.M.crescimento[0]*(self.lvp-1))
@@ -426,7 +423,7 @@ class Combate_central:
         if self.player.inventario['selo de captura'] > 0:
             sucesso=random.choice([True,False])
             if sucesso:
-                self.capturou = 'Seu selamento funcionou, você capturou o {0}'.format(self.adversario)
+                self.capturou = 'Seu selamento funcionou, você capturou o {0}'.format(self.A.nome)
                 self.adversario.hp=self.adversario.monstro.hp
                 self.player.captura(self.adversario)
                 self.player.inventario['selo de captura']-=1
@@ -496,11 +493,12 @@ class Combate_central:
                             if self.adversario.hp == 0:
                                 self.condicao = 'ganhou'
                             else:
+                                self.c=0
                                 self.atacado()
                                 self.condicao = 'atacado'
                 if self.condicao == 'atacado':
                     if event.key == pg.K_SPACE:
-                        if self.c < 1:
+                        if self.c <= 1:
                             self.c+=1
                         else:                                
                             self.c=0
@@ -520,111 +518,114 @@ class Combate_central:
                             self.criaturaP.lvup(self.adversario.lv)
                             self.condicao = 'captura'
                             self.c=0
-            if self.condicao == 'perdeu':
-                if event.key == pg.K_SPACE:
-                    self.disponivel = 0
-                    for d in self.player.party:
-                        if d.hp > 0:
-                            self.disponivel+=1
-                    self.condicao = 'trocar' 
-            if self.condicao == 'trocar':
-                if event.key == pg.K_SPACE:
-                    if self.disponivel == 0:
-                        self.game.morte
-                        self.forcegoback
-                    if self.T:
-                        self.condicao = 'escolha' 
-                if event.key == pg.K_1:
-                    if self.player.party[0].hp>0:
-                        self.criaturaP=self.player.party[0]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_2:
-                    if len(self.player.party)>=2 and self.player.party[1].hp>0:
-                        self.criaturaP=self.player.party[1]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_3:
-                    if len(self.player.party)>=3 and self.player.party[2].hp>0:
-                        self.criaturaP=self.player.party[2]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_4:
-                    if len(self.player.party)>=4 and self.player.party[3].hp>0:
-                        self.criaturaP=self.player.party[3]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_5:
-                    if len(self.player.party)>=5 and self.player.party[4].hp>0:
-                        self.criaturaP=self.player.party[4]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_6:
-                    if len(self.player.party)>=6 and self.player.party[5].hp>0:
-                        self.criaturaP=self.player.party[5]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_7:
-                    if len(self.player.party)>=7 and self.player.party[6].hp>0:
-                        self.criaturaP=self.player.party[6]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-                if event.key == pg.K_8:
-                    if len(self.player.party)>=8 and self.player.party[7].hp>0:
-                        self.criaturaP=self.player.party[7]
-                        if self.T:
-                            self.atacado()
-                            self.condicao='atacado'
-                        else:
-                            self.condicao = 'escolha'
-            if self.condicao == 'captura':
-                if self.c==0:
-                    if event.key == pg.K_s:
-                        self.c+=1
-                        self.tenta_captura
-
-                    if event.key == pg.K_n:
-                        self.capturou = 'Você deixou a energia da craitura se dissipar'
-                        self.c+=2
-                if self.c==1:
+                if self.condicao == 'perdeu':
                     if event.key == pg.K_SPACE:
-                        self.c+=1
-                if self.c==2:
+                        self.disponivel = 0
+                        for d in self.player.party:
+                            if d.hp > 0:
+                                self.disponivel+=1
+                        if self.disponivel>0:
+                            self.condicao = 'trocar'
+                        else:
+                            self.forcegoback()
+                if self.condicao == 'trocar':
                     if event.key == pg.K_SPACE:
-                        if self.capturou == 'Você deixou a energia da craitura se dissipar'   or 'Você não tem mais selos de captura, a energia se discipou':
+                        if self.disponivel == 0:
+                            self.game.morte
                             self.forcegoback
-                        if self.capturou == 'Seu selamento falhou, a energia está livre':
-                            self.capturou = 'Gostaria de tentar novamente'
-                            self.c=0
-                        if self.capturou == 'Seu selamento funcionou, você capturou o {0}'.format(self.adversario):
-                            if len (self.player.party) == self.player.partysize:
-                                self.c+=1
+                        if self.T:
+                            self.condicao = 'escolha' 
+                    if event.key == pg.K_1:
+                        if self.player.party[0].hp>0:
+                            self.criaturaP=self.player.party[0]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
                             else:
-                                self.forcegoback
-                if self.c == 3:
-                    if event.key == pg.K_SPACE:
-                        self.c+=1
-                if self.c == 4:
-                    if event.key == pg.K_SPACE:
-                        self.forcegoback
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_2:
+                        if len(self.player.party)>=2 and self.player.party[1].hp>0:
+                            self.criaturaP=self.player.party[1]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_3:
+                        if len(self.player.party)>=3 and self.player.party[2].hp>0:
+                            self.criaturaP=self.player.party[2]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_4:
+                        if len(self.player.party)>=4 and self.player.party[3].hp>0:
+                            self.criaturaP=self.player.party[3]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_5:
+                        if len(self.player.party)>=5 and self.player.party[4].hp>0:
+                            self.criaturaP=self.player.party[4]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_6:
+                        if len(self.player.party)>=6 and self.player.party[5].hp>0:
+                            self.criaturaP=self.player.party[5]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_7:
+                        if len(self.player.party)>=7 and self.player.party[6].hp>0:
+                            self.criaturaP=self.player.party[6]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                    if event.key == pg.K_8:
+                        if len(self.player.party)>=8 and self.player.party[7].hp>0:
+                            self.criaturaP=self.player.party[7]
+                            if self.T:
+                                self.atacado()
+                                self.condicao='atacado'
+                            else:
+                                self.condicao = 'escolha'
+                if self.condicao == 'captura':
+                    if self.c==0:
+                        if event.key == pg.K_s:
+                            self.c+=1
+                            self.tenta_captura()
+    
+                        if event.key == pg.K_n:
+                            self.capturou = 'Você deixou a energia da craitura se dissipar'
+                            self.c=2
+                    if self.c==1:
+                        if event.key == pg.K_SPACE:
+                            self.c+=1
+                    if self.c==2:
+                        if event.key == pg.K_SPACE:
+                            if self.capturou == 'Você deixou a energia da craitura se dissipar'   or 'Você não tem mais selos de captura, a energia se discipou':
+                                self.forcegoback()
+                            if self.capturou == 'Seu selamento falhou, a energia está livre':
+                                self.capturou = 'Gostaria de tentar novamente'
+                                self.c=0
+                            if self.capturou == 'Seu selamento funcionou, você capturou o {0}'.format(self.A.nome):
+                                if len (self.player.party) == self.player.partysize:
+                                    self.c+=1
+                                else:
+                                    self.forcegoback()
+                    if self.c == 3:
+                        if event.key == pg.K_SPACE:
+                            self.c+=1
+                    if self.c == 4:
+                        if event.key == pg.K_SPACE:
+                            self.forcegoback()

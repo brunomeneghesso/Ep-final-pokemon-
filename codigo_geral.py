@@ -31,7 +31,7 @@ class Game:
         self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
         self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
         
-        self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 10, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
+        self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 1, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
 
                 
     def load_data(self):
