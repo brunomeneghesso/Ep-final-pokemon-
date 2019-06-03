@@ -50,7 +50,10 @@ class Player(pg.sprite.Sprite):
             if wall.x == self.x + dx and wall.y == self.y + dy:
                 return True
         return False
-
+    def gasta_item(self,item):
+        self.inventario[item]-=1
+        if self.inventario[item]==0:
+            del self.inventario[item]
     def update(self):
         self.rect.x = self.x * settings.TILESIZE
         self.rect.y = self.y * settings.TILESIZE
@@ -139,6 +142,10 @@ class Criatura(Monstro):
         if self.exp>self.monstro.explv*self.lv:
             self.exp-=self.monstro.explv*self.lv
             self.lv+=1
+    def cura(self,valor):
+        self.hp+=valor
+        if self.hp > self.monstro.hp:
+            self.hp = self.monstro.hp
 class Golpes():
     def __init__(self,nome, tipo, dano):
         self.nome=nome
@@ -197,3 +204,7 @@ class Background_combat(pg.sprite.Sprite):
         self.image = game.combat_back
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+class item():
+    def __init__(self,nome,cura):
+        self.nome=nome
+        self.cura=cura

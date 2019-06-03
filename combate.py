@@ -35,9 +35,13 @@ class Combate_central:
         self.lva = self.adversario.lv
         self.golpe = ''
         self.T=True
-        self.vida=self.M.hp
+        self.vida=self.criaturaP.hp
         self.vidaA=self.A.hp
         self.capturou = 'O adversário está se dissipando em energia, gostaria de sela-lo?'
+        self.lista_itens=[]
+        for i in self.player.inventario.keys():
+            if i != 'selo de captura':
+                self.lista_itens.append(i)
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
         self.combat_back = pg.image.load(path.join(img_folder, "combat_background.png")).convert()
@@ -63,9 +67,9 @@ class Combate_central:
         pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
         pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
         if self.vida>self.criaturaP.hp:
-            self.vida-=1
+            self.vida-=0.5
         if self.vidaA>self.adversario.hp:
-            self.vidaA-=1
+            self.vidaA-=0.5
         x=(settings.WIDTH/4-8)*self.vida/self.criaturaP.monstro.hp
         y=(settings.WIDTH/4-8)*self.vidaA/self.adversario.monstro.hp
         pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/3-28,x,24])
@@ -385,6 +389,45 @@ class Combate_central:
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
                 self.screen.blit(text_surface, text_rect)
+        if self.condicao == 'item':
+            if self.disponivel >= 1:
+                pg.draw.rect(self.screen, settings.BEJE,[0, 0, settings.WIDTH, settings.HEIGHT])
+                
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, 32, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, 32, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/4+64, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/4+64, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)/2+96, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, (settings.HEIGHT-160)*3/4+128, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, (settings.HEIGHT-160)*3/4+128, settings.WIDTH*2/5, (settings.HEIGHT-160)/4])
+
+     
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, 36, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, 36, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/4+68, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/4+68, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)/2+100, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, (settings.HEIGHT-160)*3/4+132, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, (settings.HEIGHT-160)*3/4+132, settings.WIDTH*2/5-8, (settings.HEIGHT-160)/4-8])
+                
+                X=0
+                pos = [[settings.WIDTH*3/10-20,(settings.HEIGHT-160)/8+32],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)/8+32],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*3/8+64],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*3/8+64],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*5/8+96],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*5/8+96],[settings.WIDTH*3/10-20,(settings.HEIGHT-160)*7/8+128],[settings.WIDTH*7/10+6,(settings.HEIGHT-160)*7/8+128]]
+                for i in self.lista_itens:
+                    text_surface = self.game.font20.render("{0}".format(X+1), True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (pos[X][0]-(settings.WIDTH/5-20),pos[X][1]-((settings.HEIGHT-160)/8-24))
+                    self.screen.blit(text_surface, text_rect)
+                    text_surface = self.game.font40.render("{0}".format(i.nome), True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (pos[X][0]-64,pos[X][1])
+                    self.screen.blit(text_surface, text_rect)
+                    text_surface = self.game.font40.render("{0}".format(self.player.inventario[i]), True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (pos[X][0]+128,pos[X][1])
+                    self.screen.blit(text_surface, text_rect)
+                    X+=1
         pg.display.flip()
     def goback(self):
         ASD = random.randint(0,100)
@@ -629,3 +672,62 @@ class Combate_central:
                     if self.c == 4:
                         if event.key == pg.K_SPACE:
                             self.forcegoback()
+                if self.condicao == 'item':
+                    if event.key == pg.K_1:
+                        if len(self.lista_itens)>=1:
+                            self.criaturaP.cura(self.lista_itens[0].cura)
+                            self.player.gasta_item(self.lista_itens[0])
+                            if self.lista_itens[0] not in self.player.inventario:
+                                del self.lista_itens[0]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_2:
+                        if len(self.lista_itens)>=2:
+                            self.criaturaP.cura(self.lista_itens[1].cura)
+                            self.player.gasta_item(self.lista_itens[1])
+                            if self.lista_itens[1] not in self.player.inventario:
+                                del self.lista_itens[1]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_3:
+                        if len(self.lista_itens)>=3:
+                            self.criaturaP.cura(self.lista_itens[2].cura)
+                            self.player.gasta_item(self.lista_itens[2])
+                            if self.lista_itens[2] not in self.player.inventario:
+                                del self.lista_itens[2]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_4:
+                        if len(self.lista_itens)>=4:
+                            self.criaturaP.cura(self.lista_itens[3].cura)
+                            self.player.gasta_item(self.lista_itens[3])
+                            if self.lista_itens[3] not in self.player.inventario:
+                                del self.lista_itens[3]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_5:
+                        if len(self.lista_itens)>=5:
+                            self.criaturaP.cura(self.lista_itens[4].cura)
+                            self.player.gasta_item(self.lista_itens[4])
+                            if self.lista_itens[4] not in self.player.inventario:
+                                del self.lista_itens[4]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_6:
+                        if len(self.lista_itens)>=6:
+                            self.criaturaP.cura(self.lista_itens[5].cura)
+                            self.player.gasta_item(self.lista_itens[5])
+                            if self.lista_itens[5] not in self.player.inventario:
+                                del self.lista_itens[5]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_7:
+                        if len(self.lista_itens)>=7:
+                            self.criaturaP.cura(self.lista_itens[6].cura)
+                            self.player.gasta_item(self.lista_itens[6])
+                            if self.lista_itens[6] not in self.player.inventario:
+                                del self.lista_itens[6]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_8:
+                        if len(self.lista_itens)>=8:
+                            self.criaturaP.cura(self.lista_itens[7].cura)
+                            self.player.gasta_item(self.lista_itens[7])
+                            if self.lista_itens[7] not in self.player.inventario:
+                                del self.lista_itens[7]
+                            self.condicao = 'escolha'
+                    if event.key == pg.K_SPACE:
+                        self.condicao = 'escolha'

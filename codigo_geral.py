@@ -6,7 +6,6 @@ import settings
 import sprites
 import tilemap
 import combate
-lista_baus=[[18,5,"batata frita"], [18,1,"xicara de cafe"], [6,6,"orelha do papai noel"]] 
 class Game:
     def __init__(self):
         pg.init()
@@ -17,7 +16,10 @@ class Game:
         self.load_data()
         self.abrindo = False
         
-
+    def coloca_itens(self):
+        self.item1 = sprites.item('batata frita',20)
+        self.item2 = sprites.item('xicara de cafe',50)
+        self.item3 = sprites.item('orelha do papai noel',200)
     def coloca_monstros(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
@@ -31,7 +33,7 @@ class Game:
         self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
         self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
         
-        self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 1, 50, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
+        self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 1, 200, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
 
                 
     def load_data(self):
@@ -57,6 +59,7 @@ class Game:
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
         self.coloca_monstros()
+        self.coloca_itens()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -65,7 +68,8 @@ class Game:
         self.baus = pg.sprite.Group()
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
-        
+        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
+
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '.' or tile == 'P':
@@ -119,7 +123,7 @@ class Game:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         if self.abrindo == True:
             pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
-            text_surface = self.font.render("Você ganhou 1 {0}!".format(self.Ba.conteudo), True, settings.BRANCO)
+            text_surface = self.font.render("Você ganhou 1 {0}!".format(self.Ba.conteudo.nome), True, settings.BRANCO)
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
             self.screen.blit(text_surface, text_rect)
