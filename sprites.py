@@ -114,7 +114,7 @@ class Bau(pg.sprite.Sprite):
         else:
             self.image=self.game.bau_a_img
 class Monstro(pg.sprite.Sprite):
-    def __init__(self, nome, tipo, ataque, defesa, vida, move_pool, imagem, crescimento, explv):
+    def __init__(self, nome, tipo, ataque, defesa, vida, mana, move_pool, imagem, crescimento, explv):
         self.nome = nome
         self.image = imagem
         self.rect = self.image.get_rect()
@@ -131,28 +131,34 @@ class Criatura(Monstro):
         self.lv = lv
         self.exp = exp
         self.monstro=monstro
-        self.hp=self.monstro.hp
-        
+        self.hp=self.monstro.hp+self.monstro.crescimento[2]*self.lv
+        self.hpmax=self.hp
+        self.mana=self.monstro.mana+self.monstro.crescimento[3]*self.lv
+        self.manamax=self.mana
     def sofre_dano(self,dano):
         self.hp-=dano
         if self.hp < 0:
             self.hp = 0
     def lvup(self,lva):
         self.exp+=10*self.lv/lva
-        if self.exp>self.monstro.explv*self.lv:
+        while self.exp>self.monstro.explv*self.lv:
             self.exp-=self.monstro.explv*self.lv
             self.lv+=1
+            self.hpmax+=self.monstro.crescimento[2]
+            self.manamax+=self.monstro.crescimento[3]
     def cura(self,valor):
         self.hp+=valor
-        if self.hp > self.monstro.hp:
-            self.hp = self.monstro.hp
+        if self.hp > self.hpmax:
+            self.hp = self.hpmax
 class Golpes():
-    def __init__(self,nome, tipo, dano):
+    def __init__(self,nome, tipo, dano, custo):
         self.nome=nome
         self.tipo = tipo
         self.dano = dano
+        self.custo = custo
 class Tipo():
-    def __init__(self, resistencia, fraqueza):
+    def __init__(self,nome, resistencia, fraqueza):
+        self.nome = nome
         self.resistencia=resistencia
         self.fraquesa=fraqueza
         

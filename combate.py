@@ -439,6 +439,10 @@ class Combate_central:
         self.all_sprites.update()
     def atacar(self):
         dano = self.golpe.dano*(self.M.atk+self.M.crescimento[0]*(self.lvp-1)) - (self.A.df+self.A.crescimento[0]*(self.lva-1))
+        self.criaturaP.mana-=self.golpe.custo
+        if self.criaturaP.mana<0:
+            self.criaturaP.sofre_dano(-self.criaturaP.mana)
+            self.criaturaP.mana=0
         for T in self.A.tipo:
             if self.golpe.tipo in T.fraquesa:
                 dano = dano*2
@@ -451,11 +455,15 @@ class Combate_central:
     def atacado(self):
         self.c=0
         self.golpe=random.choice(self.adversario.moves)
+        self.adversario.mana-=self.golpe.custo
+        if self.adversario.mana<0:
+            self.adversario.sofre_dano(-self.criaturaP.mana)
+            self.adversario.mana=0
         dano = self.golpe.dano*(self.A.atk+self.A.crescimento[0]*(self.lva-1)) - (self.M.df+self.M.crescimento[0]*(self.lvp-1))
         for T in self.M.tipo:
-            if self.golpe.tipo in T.fraquesa:
+            if self.golpe.tipo.nome in T.fraquesa:
                 dano = dano*2
-            elif self.golpe.tipo in T.resistencia:
+            elif self.golpe.tipo.nome in T.resistencia:
                 dano = int(dano/2)
         for T in self.A.tipo:
             if self.golpe.tipo == T:
