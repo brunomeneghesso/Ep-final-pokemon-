@@ -15,6 +15,7 @@ class Game:
         pg.key.set_repeat(200,100)
         self.load_data()
         self.abrindo = False
+        self.curando = False
         
     def coloca_itens(self):
         self.item1 = sprites.item('batata frita',20)
@@ -55,6 +56,7 @@ class Game:
         self.inicio = pg.image.load(path.join(img_folder, "start_screen.png")).convert()
         self.fim = pg.image.load(path.join(img_folder, "end_screen.png")).convert()
         self.combat_back = pg.image.load(path.join(img_folder, "combat_background.png")).convert()
+        self.cura_img = pg.image.load(path.join(img_folder, "cura.png")).convert()
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
@@ -68,6 +70,7 @@ class Game:
         self.baus = pg.sprite.Group()
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
+        self.cura = pg.sprite.Group()
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
 
         for row, tiles in enumerate(self.map.data):
@@ -127,6 +130,12 @@ class Game:
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
             self.screen.blit(text_surface, text_rect)
+        if self.abrindo == True:
+            pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
+            text_surface = self.font.render("{0} e suas outras criaturas estão curadas!".format(self.player.party[0].nome), True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
+            self.screen.blit(text_surface, text_rect)
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
     def events(self):
@@ -166,6 +175,10 @@ class Game:
                                     self.Ba=B
                                     self.abrindo = True
                                     self.first = True
+                        for C in self.cura:
+                            if C.x == ver[0] and C.y == ver[1]:
+                                self.curando = True
+                                self.first = True
         elif self.abrindo == True: 
             if self.first:
                 self.Ba.abre()
@@ -179,6 +192,19 @@ class Game:
                         self.quit()
                     if event.key == pg.K_SPACE:
                         self.abrindo = False
+        elif self.curando == True: 
+            if self.first:
+                for m in self.player.party:
+                    m.cura(m.monstro.hp)
+                self.first = False
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                    if event.key == pg.K_SPACE:
+                        self.curando = False
     def morte(self):
         self.playing = False
         self.game_over = True

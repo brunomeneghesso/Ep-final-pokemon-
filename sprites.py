@@ -208,3 +208,14 @@ class item():
     def __init__(self,nome,cura):
         self.nome=nome
         self.cura=cura
+class Cura(pg.sprite.Sprite):
+    def __init__(self, game, x, y, item):
+        self.groups = game.all_sprites, game.cura, game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image=game.cura_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
