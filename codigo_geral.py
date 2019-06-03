@@ -21,6 +21,7 @@ class Game:
         self.item1 = sprites.item('batata frita',20)
         self.item2 = sprites.item('xicara de cafe',50)
         self.item3 = sprites.item('orelha do papai noel',200)
+    """
     def coloca_monstros(self):
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
@@ -35,8 +36,7 @@ class Game:
         self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
         
         self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 1, 200, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
-
-                
+    """            
     def load_data(self):
         self.game_over = False
         self.start_on = True
@@ -44,13 +44,18 @@ class Game:
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
+        self.map2 = tilemap.Map(path.join(game_folder, 'Mapa Inicial.txt'))
         self.player_img_up = pg.image.load(path.join(img_folder, "char_up.png")).convert_alpha()
         self.player_img_down = pg.image.load(path.join(img_folder, "char_down.png")).convert_alpha()
         self.player_img_left = pg.image.load(path.join(img_folder, "char_left.png")).convert_alpha()
         self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
+        self.roof = pg.image.load(path.join(img_folder, "roof.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
+        self.wall_img2 = pg.image.load(path.join(img_folder, "wall3.png")).convert_alpha()
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
+        self.ground_img2 = pg.image.load(path.join(img_folder, "ground2.png")).convert_alpha()
         self.grass_img = pg.image.load(path.join(img_folder, "mossy_stone_brick.png")).convert_alpha()
+        self.grass_img2 = pg.image.load(path.join(img_folder, "grass2.png")).convert_alpha()
         self.bau_a_img = pg.image.load(path.join(img_folder, "bau_aberto.png")).convert()
         self.bau_f_img = pg.image.load(path.join(img_folder, "bau_fechado.png")).convert()
         self.inicio = pg.image.load(path.join(img_folder, "start_screen.png")).convert()
@@ -60,7 +65,7 @@ class Game:
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
-        self.coloca_monstros()
+        #self.coloca_monstros()
         self.coloca_itens()
 
     def new(self):
@@ -87,10 +92,10 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
-                    self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
-        for X in range(28,78):
-            for Y in range(1,11):
-                sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
+                    #self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
+        #for X in range(28,78):
+            #for Y in range(1,11):
+                #sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
 
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
@@ -98,6 +103,7 @@ class Game:
         self.playing = True
         while self.playing:
             self.dt = self.clock.tick(settings.FPS) / 1000.0
+            self.check_tp()
             self.events()
             self.update()
             self.draw()
@@ -138,6 +144,51 @@ class Game:
             self.screen.blit(text_surface, text_rect)
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
+    def check_tp(self):
+        if self.player.x == 4:
+            if self.player.y == 7:
+                self.map = self.map2
+                print("oi")
+                self.tp()
+                self.update()
+
+    def tp(self):
+        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
+        for row, tiles in enumerate(self.map.data):
+            for col, tile in enumerate(tiles):
+                if tile == '.' or tile == 'P':
+                    sprites.Ground2(self, col, row)
+                if tile == '1':
+                    sprites.Wall2(self, col, row)
+                if tile == "w":
+                    sprites.Grass_skin2(self, col, row)
+                if tile == "c":
+                    sprites.Roof(self, col, row)
+                if tile == "=":
+                    sprites.Grass_skin2(self, col, row)
+        for l in lista_baus:
+                sprites.Bau(self, l[0], l[1], l[2])
+        for row, tiles in enumerate(self.map.data):
+            for col, tile in enumerate(tiles):
+                if tile == 'P':
+                    self.player.x = col
+                    self.player.y = row
+        #for X in range(28,78):
+           # for Y in range(1,11):
+              #  sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
+
+        self.player.x = 6
+        self.player.y = 75        
+        self.player = sprites.Player(self, 6, 75)
+        self.camera = tilemap.Camera(self.map.width, self.map.height)
+        self.draw()
+         
+
+
+
+
+
+
     def events(self):
         if not self.abrindo:
         # catch all events here
