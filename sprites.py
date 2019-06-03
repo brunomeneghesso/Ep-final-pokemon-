@@ -157,5 +157,12 @@ class Mato(pg.sprite.Sprite):
         self.monstros = monstros
         self.lvmin = lvmin
         self.lvmax = lvmax
+
+class Background(pg.sprite.Sprite):
+    def __init__(self, game, location):
+        pg.sprite.Sprite.__init__(self)  #call Sprite initialize
+        self.image = game.inicio
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
         
         
