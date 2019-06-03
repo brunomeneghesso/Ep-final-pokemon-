@@ -148,16 +148,35 @@ class Tipo():
     def __init__(self, resistencia, fraqueza):
         self.resistencia=resistencia
         self.fraquesa=fraqueza
+        
 class Mato(pg.sprite.Sprite):
     def __init__(self, game, x, y, monstros, lvmin, lvmax):
         self.groups = game.mato
         pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.grass_img
+        self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
         self.monstros = monstros
         self.lvmin = lvmin
         self.lvmax = lvmax
+        
 
+class Grass_skin(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.grass_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+    
 class Background_ini(pg.sprite.Sprite):
     def __init__(self, game, location):
         pg.sprite.Sprite.__init__(self)  #call Sprite initialize
@@ -172,3 +191,9 @@ class Background_end(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
         
+class Background_combat(pg.sprite.Sprite):
+    def __init__(self, game, location):
+        pg.sprite.Sprite.__init__(self)  #call Sprite initialize
+        self.image = game.combat_back
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location

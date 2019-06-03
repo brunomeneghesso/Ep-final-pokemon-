@@ -47,10 +47,12 @@ class Game:
         self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
+        self.grass_img = pg.image.load(path.join(img_folder, "mossy_stone_brick.png")).convert_alpha()
         self.bau_a_img = pg.image.load(path.join(img_folder, "bau_aberto.png")).convert()
         self.bau_f_img = pg.image.load(path.join(img_folder, "bau_fechado.png")).convert()
         self.inicio = pg.image.load(path.join(img_folder, "start_screen.png")).convert()
         self.fim = pg.image.load(path.join(img_folder, "end_screen.png")).convert()
+        self.combat_back = pg.image.load(path.join(img_folder, "combat_background.png")).convert()
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
@@ -70,6 +72,8 @@ class Game:
                     sprites.Ground(self, col, row)
                 if tile == '1':
                     sprites.Wall(self, col, row)
+                if tile == "w":
+                    sprites.Grass_skin(self, col, row)
         for l in lista_baus:
             sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):
@@ -79,8 +83,7 @@ class Game:
                     self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
         for X in range(28,78):
             for Y in range(1,11):
-                sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
-                    
+                sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
 
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
@@ -210,6 +213,7 @@ class Game:
 
 # create the game object
 g = Game()
+comback = g.combat_back
 g.show_start_screen()
 while not g.game_over:
     g.new()

@@ -5,10 +5,11 @@ import sys
 import settings
 import sprites
 import random
+from os import path
+
 
 class Combate_central:
     def __init__(self, game, screen, all_sprites, camera, player, mato):
-        self.new()
         self.game = game
         self.screen = screen
         self.all_sprites = all_sprites
@@ -37,6 +38,9 @@ class Combate_central:
         self.vida=self.M.hp
         self.vidaA=self.A.hp
         self.capturou = 'O adversário está se dissipando em energia, gostaria de sela-lo?'
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'Textures')
+        self.combat_back = pg.image.load(path.join(img_folder, "combat_background.png")).convert()
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -53,6 +57,9 @@ class Combate_central:
         self.combat = False
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
+        background_combat = sprites.Background_combat (self, [0,0])
+        self.screen.blit(background_combat.image, background_combat.rect)
+
         pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
         pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
         if self.vida>self.criaturaP.hp:
