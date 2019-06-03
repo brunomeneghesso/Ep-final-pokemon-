@@ -6,6 +6,7 @@ import settings
 import sprites
 import tilemap
 import combate
+import monstros
 class Game:
     def __init__(self):
         pg.init()
@@ -16,27 +17,15 @@ class Game:
         self.load_data()
         self.abrindo = False
         self.curando = False
+        self.c=0
         
     def coloca_itens(self):
         self.item1 = sprites.item('batata frita',20)
         self.item2 = sprites.item('xicara de cafe',50)
         self.item3 = sprites.item('orelha do papai noel',200)
-    """
+
     def coloca_monstros(self):
-        game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'Textures')
-        self.superEf=sprites.Tipo([],[])
-        self.poucoEf=sprites.Tipo([],[])
-        self.neutro=sprites.Tipo([],[])
-        self.testeTip = sprites.Tipo([self.poucoEf],[self.superEf])
-        
-        self.testeMov=sprites.Golpes('golpe neutro',self.neutro, 10)
-        self.testeSuper=sprites.Golpes('super efetivo', self.superEf, 10)
-        self.testePouco=sprites.Golpes('pouco efetivo', self.poucoEf, 10)
-        self.testeSTB=sprites.Golpes('STB', self.testeTip, 10)
-        
-        self.monstro_teste = sprites.Monstro('monstro teste', [self.testeTip], 1, 1, 200, [self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1], 1)
-    """            
+        monstros.coloca_monstros(self) 
     def load_data(self):
         self.game_over = False
         self.start_on = True
@@ -65,7 +54,7 @@ class Game:
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
-        #self.coloca_monstros()
+        self.coloca_monstros()
         self.coloca_itens()
 
     def new(self):
@@ -92,10 +81,11 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
-                    #self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
-        #for X in range(28,78):
-            #for Y in range(1,11):
-                #sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
+                    self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
+        for X in range(28,78):
+            for Y in range(1,11):
+                sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
+        sprites.Cura(self, 1,1)
 
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
@@ -136,9 +126,12 @@ class Game:
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
             self.screen.blit(text_surface, text_rect)
-        if self.abrindo == True:
-            pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/5, settings.HEIGHT*7/8, settings.WIDTH*3/5, settings.HEIGHT/8])
-            text_surface = self.font.render("{0} e suas outras criaturas estão curadas!".format(self.player.party[0].nome), True, settings.BRANCO)
+        if self.curando == True:
+            pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*7/8, settings.WIDTH, settings.HEIGHT/8])
+            if self.c == 0:
+                text_surface = self.font.render("Você colocou suas criaturas na fonte de vida", True, settings.BRANCO)
+            else:
+                text_surface = self.font.render("{0} e suas outras criaturas estão curadas!".format(self.player.party[0].monstro.nome), True, settings.BRANCO)
             text_rect = text_surface.get_rect()
             text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *9 / 10)
             self.screen.blit(text_surface, text_rect)
@@ -148,7 +141,6 @@ class Game:
         if self.player.x == 4:
             if self.player.y == 7:
                 self.map = self.map2
-                print("oi")
                 self.tp()
                 self.update()
 
@@ -190,7 +182,7 @@ class Game:
 
 
     def events(self):
-        if not self.abrindo:
+        if not self.abrindo and not self.curando:
         # catch all events here
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -230,6 +222,7 @@ class Game:
                             if C.x == ver[0] and C.y == ver[1]:
                                 self.curando = True
                                 self.first = True
+                                self.c=0
         elif self.abrindo == True: 
             if self.first:
                 self.Ba.abre()
@@ -246,7 +239,8 @@ class Game:
         elif self.curando == True: 
             if self.first:
                 for m in self.player.party:
-                    m.cura(m.monstro.hp)
+                    m.cura(m.hpmax)
+                    m.mana = m.manamax
                 self.first = False
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -255,7 +249,10 @@ class Game:
                     if event.key == pg.K_ESCAPE:
                         self.quit()
                     if event.key == pg.K_SPACE:
-                        self.curando = False
+                        if self.c==0:
+                            self.c+=1
+                        else:
+                            self.curando = False
     def morte(self):
         self.playing = False
         self.game_over = True

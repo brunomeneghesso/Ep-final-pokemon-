@@ -149,6 +149,7 @@ class Monstro(pg.sprite.Sprite):
         self.hp = vida
         self.atk = ataque
         self.df = defesa
+        self.mana = mana
 class Criatura(Monstro):
     def __init__(self, moves, lv, exp, monstro):
         self.moves = moves
@@ -262,7 +263,7 @@ class item():
         self.nome=nome
         self.cura=cura
 class Cura(pg.sprite.Sprite):
-    def __init__(self, game, x, y, item):
+    def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.cura, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game

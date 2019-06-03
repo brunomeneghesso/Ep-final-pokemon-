@@ -8,10 +8,10 @@ def coloca_monstros(game):
     game.superEf=sprites.Tipo("super ef",[],[])
     game.poucoEf=sprites.Tipo("pouco ef",[],[])
     game.neutro=sprites.Tipo("neutro",[],[])
-    game.testeTip = sprites.Tipo(["pouco ef"],["super ef"])
+    game.testeTip = sprites.Tipo('teste',["pouco ef"],["super ef"])
     
     #tipos do jogo
-    game.neutro = sprites.Tipo([],[])
+    game.neutro = sprites.Tipo('neutro',[],[])
     game.fogo = sprites.Tipo("fogo",["planta"],["água"])
     game.agua = sprites.Tipo("água",["fogo"],["planta"])
     game.planta = sprites.Tipo("planta",["água"],["fogo"])
@@ -29,4 +29,4 @@ def coloca_monstros(game):
     game.planta1 = sprites.Golpes('Chicote de vinha', game.planta, 10,10)
     game.planta2 = sprites.Golpes('Raiz penetrante', game.planta, 15,20)
     
-    game.monstro_teste = sprites.Monstro('monstro teste', [game.testeTip], 1, 1, 200,100 [game.testeMov, game.testeSuper,game.testePouco,game.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1,1], 1)
+    game.monstro_teste = sprites.Monstro('monstro teste', [game.testeTip], 1, 1, 200,100, [game.testeMov, game.testeSuper,game.testePouco,game.testeSTB], pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1,1], 1)
