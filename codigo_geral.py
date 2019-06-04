@@ -78,15 +78,15 @@ class Game:
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
-<<<<<<< HEAD
+
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
         self.screen.fill(settings.VERDE)
-=======
+
         self.pc = pg.sprite.Group()
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
 
 
->>>>>>> 86c86e37afc313eeebdd5e2b861701f08c71fab3
+
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 
@@ -217,19 +217,19 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
-<<<<<<< HEAD
+
                     self.player = sprites.Player(self, col, row)
 
         #for X in range(28,78):
            # for Y in range(1,11):
               #  sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
-=======
+
                     self.player.x = col
                     self.player.y = row
         for X in range(28,78):
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
->>>>>>> 86c86e37afc313eeebdd5e2b861701f08c71fab3
+
 
         self.player.x = 8
         self.player.y = 8        
@@ -319,9 +319,7 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
-<<<<<<< HEAD
-        #elif self.troca == True:
-=======
+
         elif self.troca == True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -338,7 +336,7 @@ class Game:
                     if event.key == pg.K_SPACE:
                         self.troca = False
                         
->>>>>>> 86c86e37afc313eeebdd5e2b861701f08c71fab3
+
     def morte(self):
         self.playing = False
         self.game_over = True
