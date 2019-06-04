@@ -36,6 +36,11 @@ class Game:
         char_folder = path.join(img_folder, "char")
         pokemon_folder = path.join(img_folder, "pokemon")
         wall_folder = path.join(img_folder, "wall")
+        #magimons
+        self.fogo = pg.image.load(path.join(pokemon_folder, "fire.png")).convert_alpha()
+        self.agua = pg.image.load(path.join(pokemon_folder, "water.png")).convert_alpha()
+        self.planta = pg.image.load(path.join(pokemon_folder, "leaf.png")).convert_alpha()
+        #map
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.map2 = tilemap.Map(path.join(game_folder, 'Mapa Inicial.txt'))
         self.player_img_up = pg.image.load(path.join(char_folder, "char_up.png")).convert_alpha()
@@ -275,6 +280,7 @@ class Game:
         while self.start_on:
             time.sleep(0.2)
             self.screen.blit(background_init.image, background_init.rect)
+            self.screen.blit(self.tree_wall_img,(10,10))
             pg.display.flip()
             for event in pg.event.get():
                 if event.type == pg.QUIT:
