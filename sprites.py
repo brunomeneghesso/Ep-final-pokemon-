@@ -337,3 +337,33 @@ class Background_combat(pg.sprite.Sprite):
         self.image = game.combat_back
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
+        
+###|MAGIMONS|  
+        
+class Magimon_skin(pg.sprite.Sprite):
+    def __init__(self, game, location):
+        pg.sprite.Sprite.__init__(self)  #call Sprite initialize
+        self.image = game.fogo
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
