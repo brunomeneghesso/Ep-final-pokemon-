@@ -32,21 +32,25 @@ class Game:
         self.end_on = True
         game_folder = path.dirname(__file__)
         img_folder = path.join(game_folder, 'Textures')
+        ground_folder = path.join(img_folder, "ground")
+        char_folder = path.join(img_folder, "char")
+        pokemon_folder = path.join(img_folder, "pokemon")
+        wall_folder = path.join(img_folder, "wall")
         self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
         self.map2 = tilemap.Map(path.join(game_folder, 'Mapa Inicial.txt'))
-        self.player_img_up = pg.image.load(path.join(img_folder, "char_up.png")).convert_alpha()
-        self.player_img_down = pg.image.load(path.join(img_folder, "char_down.png")).convert_alpha()
-        self.player_img_left = pg.image.load(path.join(img_folder, "char_left.png")).convert_alpha()
-        self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
-        self.roof = pg.image.load(path.join(img_folder, "roof2.png")).convert_alpha()
-        self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
-        self.tree_wall_img = pg.image.load(path.join(img_folder, "tree.png")).convert_alpha()
-        self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
-        self.ground_img2 = pg.image.load(path.join(img_folder, "ground2.png")).convert_alpha()
+        self.player_img_up = pg.image.load(path.join(char_folder, "char_up.png")).convert_alpha()
+        self.player_img_down = pg.image.load(path.join(char_folder, "char_down.png")).convert_alpha()
+        self.player_img_left = pg.image.load(path.join(char_folder, "char_left.png")).convert_alpha()
+        self.player_img_right = pg.image.load(path.join(char_folder, "char_right.png")).convert_alpha()
+        self.tilezito = pg.image.load(path.join(ground_folder, "tilezito.png")).convert_alpha()
+        self.wall_img = pg.image.load(path.join(wall_folder, "wall.png")).convert_alpha()
+        self.tree_wall_img = pg.image.load(path.join(wall_folder, "tree.png")).convert_alpha()
+        self.stone_ground_img = pg.image.load(path.join(ground_folder, "stone_brick.png")).convert_alpha()
+        self.dirt_ground_img = pg.image.load(path.join(ground_folder, "ground2.png")).convert_alpha()
         self.lake = pg.image.load(path.join(img_folder, "lake.png")).convert_alpha()
-        self.grass_img = pg.image.load(path.join(img_folder, "mossy_stone_brick.png")).convert_alpha()
-        self.grass_img2 = pg.image.load(path.join(img_folder, "grass3.png")).convert_alpha()
-        self.grass_img3 = pg.image.load(path.join(img_folder, "grass2.png")).convert_alpha()
+        self.stone_grass_img = pg.image.load(path.join(ground_folder, "mossy_stone_brick.png")).convert_alpha()
+        self.dirt_grass_img = pg.image.load(path.join(ground_folder, "grass2.png")).convert_alpha()
+        self.tall_grass_img = pg.image.load(path.join(ground_folder, "grass3.png")).convert_alpha()
         self.bau_a_img = pg.image.load(path.join(img_folder, "bau_aberto.png")).convert()
         self.bau_f_img = pg.image.load(path.join(img_folder, "bau_fechado.png")).convert()
         self.inicio = pg.image.load(path.join(img_folder, "start_screen.png")).convert()
@@ -73,11 +77,11 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '.' or tile == 'P':
-                    sprites.Ground(self, col, row)
+                    sprites.Ground_stone(self, col, row)
                 if tile == '1':
                     sprites.Wall(self, col, row)
                 if tile == "w":
-                    sprites.Grass_skin(self, col, row)
+                    sprites.Grass_stone(self, col, row)
         for l in lista_baus:
             sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):
@@ -154,17 +158,17 @@ class Game:
             for col, tile in enumerate(tiles):
                 
                 if tile == '.' or tile == 'P':
-                    sprites.Grass_skin3(self, col, row)
+                    sprites.Grass_ground(self, col, row)
                 if tile == '1':
-                    sprites.Tree_Wall(self, col, row)
+                    sprites.Wall_tree(self, col, row)
                 if tile == "w":
-                    sprites.Grass_skin2(self, col, row)
+                    sprites.Grass_real(self, col, row)
                 if tile == "c":
-                    sprites.Ground3(self, col, row)
+                    sprites.Ground_stone_wall(self, col, row)
                 if tile == "=":
-                    sprites.Ground2(self, col, row)
+                    sprites.Ground_dirt(self, col, row)
                 if tile == "+":
-                    sprites.Roof(self, col, row)
+                    sprites.Tilezito(self, col, row)
                 if tile == "o":
                     sprites.Lake(self, col, row)
         for l in lista_baus:

@@ -2,6 +2,8 @@ import pygame as pg
 import settings
 import random
 
+###|PLAYER|
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
@@ -65,6 +67,8 @@ class Player(pg.sprite.Sprite):
             self.image = self.game.player_img_left
         if self.rot == 270:
             self.image = self.game.player_img_down
+            
+###|BUILDING BLOCKS|
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -78,7 +82,7 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         
-class Tree_Wall(pg.sprite.Sprite):
+class Wall_tree(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -90,41 +94,118 @@ class Tree_Wall(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         
-class Ground(pg.sprite.Sprite):
+class Ground_stone(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.ground_img
+        self.image = game.stone_ground_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+
+class Ground_stone_wall(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.stone_ground_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         
-class Ground2(pg.sprite.Sprite):
+class Ground_dirt(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.ground_img2
+        self.image = game.dirt_ground_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+
+class Mato(pg.sprite.Sprite):
+    def __init__(self, game, x, y, monstros, lvmin, lvmax):
+        self.groups = game.mato
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.stone_grass_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+        self.monstros = monstros
+        self.lvmin = lvmin
+        self.lvmax = lvmax
+        
+class Tilezito(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.tilezito
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         
-class Ground3(pg.sprite.Sprite):
+class Grass_stone(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.ground_img
+        self.image = game.stone_grass_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
+        
+class Grass_ground(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.dirt_grass_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+
+class Grass_real(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.tall_grass_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+        
+class Lake(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.lake
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+    
+###|ENTITIES|    
         
 class Bau(pg.sprite.Sprite):
     def __init__(self, game, x, y, item):
@@ -149,6 +230,7 @@ class Bau(pg.sprite.Sprite):
             self.image=self.game.bau_f_img
         else:
             self.image=self.game.bau_a_img
+
 class Monstro(pg.sprite.Sprite):
     def __init__(self, nome, tipo, ataque, defesa, vida, mana, move_pool, imagem, crescimento, explv):
         self.nome = nome
@@ -162,6 +244,7 @@ class Monstro(pg.sprite.Sprite):
         self.atk = ataque
         self.df = defesa
         self.mana = mana
+
 class Criatura(Monstro):
     def __init__(self, moves, lv, exp, monstro):
         self.moves = moves
@@ -190,93 +273,39 @@ class Criatura(Monstro):
             self.hp = self.hpmax
     def troca_golpe(self, antigo, novo):
         self.moves[antigo] = novo
+
 class Golpes():
     def __init__(self,nome, tipo, dano, custo):
         self.nome=nome
         self.tipo = tipo
         self.dano = dano
         self.custo = custo
+
 class Tipo():
     def __init__(self,nome, resistencia, fraqueza):
         self.nome = nome
         self.resistencia=resistencia
         self.fraquesa=fraqueza
         
-class Mato(pg.sprite.Sprite):
-    def __init__(self, game, x, y, monstros, lvmin, lvmax):
-        self.groups = game.mato
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.grass_img
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
-        self.monstros = monstros
-        self.lvmin = lvmin
-        self.lvmax = lvmax
-        
-class Roof(pg.sprite.Sprite):
+class item():
+    def __init__(self,nome,cura):
+        self.nome=nome
+        self.cura=cura
+
+class Cura(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites
+        self.groups = game.all_sprites, game.cura, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.roof
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
-        
-class Grass_skin(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.grass_img
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
-        
-class Grass_skin2(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.grass_img2
+        self.image=game.cura_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
 
-class Grass_skin3(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.grass_img3
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
-        
-class Lake(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = game.lake
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
-    
+###|BACKGROUND|    
+
 class Background_ini(pg.sprite.Sprite):
     def __init__(self, game, location):
         pg.sprite.Sprite.__init__(self)  #call Sprite initialize
@@ -297,18 +326,3 @@ class Background_combat(pg.sprite.Sprite):
         self.image = game.combat_back
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
-class item():
-    def __init__(self,nome,cura):
-        self.nome=nome
-        self.cura=cura
-class Cura(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.cura, game.walls
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image=game.cura_img
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * settings.TILESIZE
-        self.rect.y = y * settings.TILESIZE
