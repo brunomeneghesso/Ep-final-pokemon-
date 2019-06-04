@@ -78,6 +78,7 @@ class Game:
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
+        self.pc = pg.sprite.Group()
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
 
 
@@ -185,9 +186,9 @@ class Game:
                 if tile == 'P':
                     self.player.x = col
                     self.player.y = row
-        #for X in range(28,78):
-           # for Y in range(1,11):
-              #  sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
+        for X in range(28,78):
+            for Y in range(1,11):
+                sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
 
         self.player.x = 6
         self.player.y = 75        
@@ -202,7 +203,7 @@ class Game:
 
 
     def events(self):
-        if not self.abrindo and not self.curando:
+        if not self.abrindo and not self.curando and not self.troca:
         # catch all events here
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -243,6 +244,10 @@ class Game:
                                 self.curando = True
                                 self.first = True
                                 self.c=0
+                        for p in self.pc:
+                            if p.x == ver[0] and p.y == ver[1]:
+                                self.troca = True
+                                self.c=0
         elif self.abrindo == True: 
             if self.first:
                 self.Ba.abre()
@@ -273,7 +278,22 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
-        #elif self.troca == True:
+        elif self.troca == True:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                if self.c == 0:
+                    if event.key == pg.K_q:
+                        if len (self.player.party)>1:
+                            self.c += 1
+                    if event.key == pg.K_w:
+                        self.c+=2
+                    if event.key == pg.K_SPACE:
+                        self.troca = False
+                        
     def morte(self):
         self.playing = False
         self.game_over = True

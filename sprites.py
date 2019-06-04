@@ -306,7 +306,7 @@ class Cura(pg.sprite.Sprite):
 
 class PC(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.cura, game.walls
+        self.groups = game.all_sprites, game.pc, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image=game.pc_img

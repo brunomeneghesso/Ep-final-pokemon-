@@ -69,16 +69,20 @@ class Combate_central:
         sys.exit()
     def forcegoback(self):
         self.combat = False
-    def poke(self):
-        fire = sprites.Magimon_skin (self, [0,0])
-        self.screen.blit(fire.image,fire.rect)
     def draw(self):
         self.screen.fill(settings.BG_COMBAT_COLOR)
         background_combat = sprites.Background_combat (self, [0,0])
         self.screen.blit(background_combat.image, background_combat.rect)
-        self.poke()
+        imgP=self.M.image
+        rectP=self.M.rect
+        rectP.left , rectP.top = [settings.WIDTH/8, settings.HEIGHT/4] 
+        self.screen.blit(imgP, rectP)
         
-        
+        imgA=self.A.image
+        rectA=self.A.rect
+        pg.transform.flip(rectA,1,0)
+        rectA.left , rectA.top = [settings.WIDTH*5/8, settings.HEIGHT/4] 
+        self.screen.blit(imgA, rectA)
         
         
         
