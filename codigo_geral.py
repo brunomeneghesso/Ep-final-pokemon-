@@ -161,7 +161,7 @@ class Game:
         for y in range(0, settings.HEIGHT, settings.TILESIZE):
             pg.draw.line(self.screen, settings.CINZA_CLA, (0, y), (settings.WIDTH, y))
     def combate(self):
-        mato_teste = sprites.Mato(self,1,1,[self.monstro_teste],1,1)
+        mato_teste = sprites.Mato(self,0,0,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],3,6)
         c = combate.Combate_central(self, self.screen, self.all_sprites, self.camera, self.player, mato_teste)
         c.run()
             
@@ -225,21 +225,11 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
-                    self.player.x = col
-                    self.player.y = row
+                    self.player.x = 50
+                    self.player.y = 24
         for X in range(28,78):
             for Y in range(1,11):
-                sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
-
-                self.player = sprites.Player(self, col, row)
-
-        for X in range(28,78):
-           for Y in range(1,11):
-              sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
-
-        self.player.x = 50
-        self.player.y = 24
-        self.player = sprites.Player(self, 8, 8)
+                sprites.Mato(self,X,Y,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],3,6)
         self.camera = tilemap.Camera(self.map.width, self.map.height)
         self.draw()
          
