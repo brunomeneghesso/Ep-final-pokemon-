@@ -148,6 +148,7 @@ class Game:
 
     def tp(self):
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
+        self.screen.fill(settings.VERDE)
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 
