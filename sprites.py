@@ -304,6 +304,17 @@ class Cura(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
 
+class PC(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.cura, game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image=game.pc_img
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE 
 ###|BACKGROUND|    
 
 class Background_ini(pg.sprite.Sprite):
