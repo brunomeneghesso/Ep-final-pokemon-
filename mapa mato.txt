@@ -40,7 +40,7 @@
 111111111111111111111111111111111111ccccccccccccccccccccccc++++ccccccccccccccc1
 1wwwwwwwooooooo..oooooooooooooooooooooooooooooooooooooooooo++++oooooooooooooooo
 1wwwwwwoooooooooo..................oooooooooooooooooooooooo++++oooooooooooooooo
-1oooooooooooooo...........................................P====wwwwwwwwwwwwwww1
+1oooooooooooooo............................................====wwwwwwwwwwwwwww1
 1ooooooooooo......=============================================wwwwwwwwwwwwwww1
 1oooooooooooo.....=============================================wwwwwwwwwwwwwww1
 111oooooooooooo...=============================================wwwwwwwwwwwwwww1
@@ -119,6 +119,6 @@
 ccccccooooo.......==....cccccccc...==....wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww1
 ccccccc...........==....ccccccc+=====.....ww11ww111www111w111w1111111111111...1
 cccccc+=============....cccccccc...==.....1111111111111111111111111111111111111
-cccccc+x============.....cccccc....==..1111111111111111111111111111111111111111
+cccccc+P============.....cccccc....==..1111111111111111111111111111111111111111
 ccccccc.111111111c++c1111111111111c++c11111111111111111111111111111111111111111
 11111111111111111cccc1111111111111cccc11111111111111111111111111111111111111111

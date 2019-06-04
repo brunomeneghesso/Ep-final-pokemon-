@@ -326,6 +326,13 @@ class Background_ini(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = location
         
+class Background_ini2(pg.sprite.Sprite):
+    def __init__(self, game, location):
+        pg.sprite.Sprite.__init__(self)  #call Sprite initialize
+        self.image = game.escolha
+        self.rect = self.image.get_rect()
+        self.rect.left, self.rect.top = location
+        
 class Background_end(pg.sprite.Sprite):
     def __init__(self, game, location):
         pg.sprite.Sprite.__init__(self)  #call Sprite initialize
