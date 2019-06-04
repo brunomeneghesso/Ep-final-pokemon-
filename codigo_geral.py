@@ -268,7 +268,7 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
-        elif self.troca == True:
+        #elif self.troca == True:
     def morte(self):
         self.playing = False
         self.game_over = True
