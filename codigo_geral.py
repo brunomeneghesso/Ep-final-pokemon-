@@ -42,8 +42,8 @@ class Game:
         self.agua = pg.image.load(path.join(pokemon_folder, "water.png")).convert_alpha()
         self.planta = pg.image.load(path.join(pokemon_folder, "leaf.png")).convert_alpha()
         #map
-        self.map = tilemap.Map(path.join(game_folder, 'mapa_teste.txt'))
-        self.map2 = tilemap.Map(path.join(game_folder, 'Mapa Inicial.txt'))
+        self.map = tilemap.Map(path.join(game_folder, 'mapa mato.txt'))
+        self.map2 = tilemap.Map(path.join(game_folder, 'mapa castelo.txt'))
         self.player_img_up = pg.image.load(path.join(char_folder, "char_up.png")).convert_alpha()
         self.player_img_down = pg.image.load(path.join(char_folder, "char_down.png")).convert_alpha()
         self.player_img_left = pg.image.load(path.join(char_folder, "char_left.png")).convert_alpha()
@@ -78,19 +78,40 @@ class Game:
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
-        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
-
-
+        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
+        self.screen.fill(settings.VERDE)
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '.' or tile == 'P':
-                    sprites.Ground_stone(self, col, row)
+                
+                if tile == '.':
+                    sprites.Grass_ground(self, col, row)
                 if tile == '1':
-                    sprites.Wall(self, col, row)
+                    sprites.Wall_tree(self, col, row)
                 if tile == "w":
-                    sprites.Grass_stone(self, col, row)
+                    sprites.Grass_real(self, col, row)
+                if tile == "c":
+                    sprites.Ground_stone_wall(self, col, row)
+                if tile == "=" or tile == 'P':
+                    sprites.Ground_dirt(self, col, row)
+                if tile == "+":
+                    sprites.Tilezito(self, col, row)
+                if tile == "o":
+                    sprites.Lake(self, col, row)
         for l in lista_baus:
-            sprites.Bau(self, l[0], l[1], l[2])
+                sprites.Bau(self, l[0], l[1], l[2])
+
+
+
+
+
+
+
+
+
+
+
+
+        
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
@@ -152,8 +173,23 @@ class Game:
         # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
     def check_tp(self):
-        if self.player.x == 4:
-            if self.player.y == 7:
+        if self.player.x == 61:
+            if self.player.y == 39:
+                self.map = self.map2
+                self.tp()
+                self.update()
+        if self.player.x == 60:
+            if self.player.y == 39:
+                self.map = self.map2
+                self.tp()
+                self.update()
+        if self.player.x == 59:
+            if self.player.y == 39:
+                self.map = self.map2
+                self.tp()
+                self.update()
+        if self.player.x == 62:
+            if self.player.y == 39:
                 self.map = self.map2
                 self.tp()
                 self.update()
@@ -163,35 +199,26 @@ class Game:
         self.screen.fill(settings.VERDE)
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                
                 if tile == '.' or tile == 'P':
-                    sprites.Grass_ground(self, col, row)
+                    sprites.Ground_stone(self, col, row)
                 if tile == '1':
-                    sprites.Wall_tree(self, col, row)
+                    sprites.Wall(self, col, row)
                 if tile == "w":
-                    sprites.Grass_real(self, col, row)
-                if tile == "c":
-                    sprites.Ground_stone_wall(self, col, row)
-                if tile == "=":
-                    sprites.Ground_dirt(self, col, row)
-                if tile == "+":
-                    sprites.Tilezito(self, col, row)
-                if tile == "o":
-                    sprites.Lake(self, col, row)
+                    sprites.Grass_stone(self, col, row)
         for l in lista_baus:
-                sprites.Bau(self, l[0], l[1], l[2])
+            sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
-                    self.player.x = col
-                    self.player.y = row
+                    self.player = sprites.Player(self, col, row)
+
         #for X in range(28,78):
            # for Y in range(1,11):
               #  sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
 
-        self.player.x = 6
-        self.player.y = 75        
-        self.player = sprites.Player(self, 6, 75)
+        self.player.x = 8
+        self.player.y = 8        
+        self.player = sprites.Player(self, 8, 8)
         self.camera = tilemap.Camera(self.map.width, self.map.height)
         self.draw()
          
@@ -273,7 +300,7 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
-        elif self.troca == True:
+        #elif self.troca == True:
     def morte(self):
         self.playing = False
         self.game_over = True
