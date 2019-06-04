@@ -73,22 +73,28 @@ class Combate_central:
         self.screen.fill(settings.BG_COMBAT_COLOR)
         background_combat = sprites.Background_combat (self, [0,0])
         self.screen.blit(background_combat.image, background_combat.rect)
-        imgP=self.M.image
-        rectP=self.M.rect
+        imgP=self.M.image1
+        rectP=self.M.rect1
         rectP.left , rectP.top = [settings.WIDTH/8, settings.HEIGHT/4] 
         self.screen.blit(imgP, rectP)
         
-        imgA=self.A.image
-        rectA=self.A.rect
-        pg.transform.flip(rectA,1,0)
+        imgA=self.A.image2
+        rectA=self.A.rect2
         rectA.left , rectA.top = [settings.WIDTH*5/8, settings.HEIGHT/4] 
         self.screen.blit(imgA, rectA)
         
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/9-24,settings.WIDTH/4,44])
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/9-24,settings.WIDTH/4,44])
         
+        text_surface = self.game.font40.render(str(self.M.nome), True, settings.PRETO)
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (settings.WIDTH/8, settings.HEIGHT/9-24)
+        self.screen.blit(text_surface, text_rect)
         
-        
-        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/9-32,settings.WIDTH/4,44])
-        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/9-32,settings.WIDTH/4,44])
+        text_surface = self.game.font40.render(str(self.A.nome), True, settings.PRETO)
+        text_rect = text_surface.get_rect()
+        text_rect.bottomleft = (settings.WIDTH*5/8, settings.HEIGHT/9-24)
+        self.screen.blit(text_surface, text_rect)
         if self.vida>self.criaturaP.hp:
             self.vida-=0.5
         if self.vidaA>self.adversario.hp:
@@ -101,10 +107,10 @@ class Combate_central:
         y=(settings.WIDTH/4-8)*self.vidaA/self.adversario.hpmax
         X=(settings.WIDTH/4-8)*self.mana/self.criaturaP.manamax
         Y=(settings.WIDTH/4-8)*self.manaA/self.adversario.manamax
-        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/9-28,x,24])
-        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH*5/8+4,settings.HEIGHT/9-28,y,24])
-        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH/8+4,settings.HEIGHT/9,X,8])
-        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH*5/8+4,settings.HEIGHT/9,Y,8])
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/9-20,x,24])
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH*5/8+4,settings.HEIGHT/9-20,y,24])
+        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH/8+4,settings.HEIGHT/9+8,X,8])
+        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH*5/8+4,settings.HEIGHT/9+8,Y,8])
         if self.condicao == 'escolha':
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             

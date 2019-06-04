@@ -37,7 +37,7 @@ def coloca_monstros(game):
 
     
     
-    game.monstro_teste = sprites.Monstro('monstro teste', [game.testeTip], 1, 1, 200,100, {game.testeMov:0, game.testeSuper:0,game.testePouco:0,game.testeSTB:0}, pg.image.load(path.join(img_folder, "imgteste.png")).convert(), [1,1,1,1], 1)
-    game.inicial_fogo = sprites.Monstro('Agni', [game.fogo], 3, 8, 100, 100, {game.fogo1:0,game.neutro1:0, game.neutro2:7, game.fogo2:15, game.neutro3:30, game.fogo3:45}, pg.image.load(path.join(img_folder, "fogo.png")).convert(), [3,5,10,10],20)
-    game.inicial_agua = sprites.Monstro('Nautica', [game.agua], 2, 12, 120, 100, {game.agua1:0,game.neutro1:0, game.neutro2:7, game.agua2:15, game.neutro3:30, game.agua3:45}, pg.image.load(path.join(img_folder, "agua.png")).convert(), [2,7,12,8],20)
-    game.inicial_fogo = sprites.Monstro('Grover', [game.fogo], 1, 16, 150, 100, {game.planta1:0,game.neutro1:0, game.neutro2:7, game.planta2:15, game.neutro3:30, game.planta3:45}, pg.image.load(path.join(img_folder, "planta.png")).convert(), [1,10,15,15],20)
+    game.monstro_teste = sprites.Monstro('monstro teste', [game.testeTip], 1, 1, 200,100, {game.testeMov:0, game.testeSuper:0,game.testePouco:0,game.testeSTB:0}, pg.image.load(path.join(img_folder, "imgteste.png")).convert(),pg.image.load(path.join(img_folder, "imgteste2.png")).convert(), [1,1,1,1], 1)
+    game.inicial_fogo = sprites.Monstro('Agni', [game.fogo], 3, 8, 100, 100, {game.fogo1:0,game.neutro1:0, game.neutro2:7, game.fogo2:15, game.neutro3:30, game.fogo3:45}, pg.image.load(path.join(img_folder, "fogo.png")).convert(),pg.image.load(path.join(img_folder, "fogo2.png")).convert(), [3,5,10,10],20)
+    game.inicial_agua = sprites.Monstro('Nautica', [game.agua], 2, 12, 120, 100, {game.agua1:0,game.neutro1:0, game.neutro2:7, game.agua2:15, game.neutro3:30, game.agua3:45}, pg.image.load(path.join(img_folder, "agua.png")).convert(),pg.image.load(path.join(img_folder, "agua2.png")).convert(), [2,7,12,8],20)
+    game.inicial_fogo = sprites.Monstro('Grover', [game.fogo], 1, 16, 150, 100, {game.planta1:0,game.neutro1:0, game.neutro2:7, game.planta2:15, game.neutro3:30, game.planta3:45}, pg.image.load(path.join(img_folder, "planta.png")).convert(),pg.image.load(path.join(img_folder, "planta2.png")).convert(), [1,10,15,15],20)
