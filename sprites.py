@@ -176,17 +176,20 @@ class Criatura(Monstro):
         self.hp-=dano
         if self.hp < 0:
             self.hp = 0
-    def lvup(self,lva):
+    def lvup(self,game,lva):
         self.exp+=10*self.lv/lva
         while self.exp>self.monstro.explv*self.lv:
             self.exp-=self.monstro.explv*self.lv
             self.lv+=1
             self.hpmax+=self.monstro.crescimento[2]
             self.manamax+=self.monstro.crescimento[3]
+            self.game.condicao = 'subiu nivel'
     def cura(self,valor):
         self.hp+=valor
         if self.hp > self.hpmax:
             self.hp = self.hpmax
+    def troca_golpe(self, antigo, novo):
+        self.moves[antigo] = novo
 class Golpes():
     def __init__(self,nome, tipo, dano, custo):
         self.nome=nome

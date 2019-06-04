@@ -24,11 +24,19 @@ class Combate_central:
                 self.disponivel+=1
         monstro = random.choice(mato.monstros) 
         mvset = []
-        while len(mvset)<4:
-            nmv = random.choice(monstro.move_pool)
-            if nmv not in mvset:
-                mvset.append(nmv)
-        self.adversario = sprites.Criatura(mvset, random.randint(mato.lvmin,mato.lvmax+1),0,monstro)
+        lv = random.randint(mato.lvmin,mato.lvmax+1)
+        possiveis=[]
+        for m,nv in monstro.move_pool.items():
+            if nv<=lv:
+                possiveis.append(m)
+        if len (possiveis) > 4:
+            while len(mvset)<4:
+                nmv = random.choice(monstro.move_pool)
+                if nmv not in mvset:
+                    mvset.append(nmv)
+        else:
+            mvset = possiveis
+        self.adversario = sprites.Criatura(mvset, lv,0,monstro)
         self.M = self.criaturaP.monstro
         self.lvp = self.criaturaP.lv
         self.A = self.adversario.monstro
@@ -36,7 +44,9 @@ class Combate_central:
         self.golpe = ''
         self.T=True
         self.vida=self.criaturaP.hp
-        self.vidaA=self.A.hp
+        self.vidaA=self.adversario.hp
+        self.mana=self.criaturaP.mana
+        self.manaA=self.adversario.mana
         self.capturou = 'O adversário está se dissipando em energia, gostaria de sela-lo?'
         self.lista_itens=[]
         for i in self.player.inventario.keys():
@@ -64,16 +74,24 @@ class Combate_central:
         background_combat = sprites.Background_combat (self, [0,0])
         self.screen.blit(background_combat.image, background_combat.rect)
 
-        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
-        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/3-32,settings.WIDTH/4,32])
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/8,settings.HEIGHT/9-32,settings.WIDTH/4,44])
+        pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH*5/8,settings.HEIGHT/9-32,settings.WIDTH/4,44])
         if self.vida>self.criaturaP.hp:
             self.vida-=0.5
         if self.vidaA>self.adversario.hp:
             self.vidaA-=0.5
-        x=(settings.WIDTH/4-8)*self.vida/self.criaturaP.monstro.hp
-        y=(settings.WIDTH/4-8)*self.vidaA/self.adversario.monstro.hp
-        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/3-28,x,24])
-        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH*5/8+4,settings.HEIGHT/3-28,y,24])
+        if self.mana>self.criaturaP.mana:
+            self.mana-=0.5
+        if self.manaA>self.adversario.mana:
+            self.manaA-=0.5
+        x=(settings.WIDTH/4-8)*self.vida/self.criaturaP.hpmax
+        y=(settings.WIDTH/4-8)*self.vidaA/self.adversario.hpmax
+        X=(settings.WIDTH/4-8)*self.mana/self.criaturaP.manamax
+        Y=(settings.WIDTH/4-8)*self.manaA/self.adversario.manamax
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH/8+4,settings.HEIGHT/9-28,x,24])
+        pg.draw.rect(self.screen, settings.VERMELHO,[settings.WIDTH*5/8+4,settings.HEIGHT/9-28,y,24])
+        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH/8+4,settings.HEIGHT/9,X,8])
+        pg.draw.rect(self.screen, settings.AZUL,[settings.WIDTH*5/8+4,settings.HEIGHT/9,Y,8])
         if self.condicao == 'escolha':
             pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
             
@@ -428,6 +446,106 @@ class Combate_central:
                     text_rect.center = (pos[X][0]+128,pos[X][1])
                     self.screen.blit(text_surface, text_rect)
                     X+=1
+            if self.condicao == 'subiu nivel':
+                if self.c == 0:
+                    pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+        
+                    text_surface = self.game.font40.render("{0} subiu para o nivel.{1}".format(self.M.nome,self.criaturaP.lv), True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                if self.c == 1:
+                    pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                   
+                    text_surface = self.game.font.render("Quer ensinar {0} a como usar {1}".format(self.M.nome,self.golpe.nome), True, settings.PRETO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (settings.WIDTH / 2,  settings.HEIGHT *9 / 12)
+                    self.screen.blit(text_surface, text_rect)
+                    
+                    pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                    pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                    
+                    pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                    pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                
+                    text_surface = self.game.font20.render("S", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH/10-2, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                    self.screen.blit(text_surface, text_rect)
+                
+                    text_surface = self.game.font.render("Sim!", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                    self.screen.blit(text_surface, text_rect)
+                    
+                    text_surface = self.game.font20.render("N", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH/2+30, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                    self.screen.blit(text_surface, text_rect)
+                    
+                    text_surface = self.game.font.render("Não", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                    self.screen.blit(text_surface, text_rect)
+                if self.c == 2:
+                    pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+        
+                    text_surface = self.game.font40.render("Selecione um golpe para ser substituido", True, settings.BRANCO)
+                    text_rect = text_surface.get_rect()
+                    text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)
+                    self.screen.blit(text_surface, text_rect)
+                if self.c == 3:
+                    pg.draw.rect(self.screen, settings.BEJE,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
+                
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, settings.HEIGHT*2/3+settings.HEIGHT/6/5-16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/10-16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+                pg.draw.rect(self.screen, settings.PRETO,[settings.WIDTH/2+16, settings.HEIGHT*2/3+settings.HEIGHT/6+16, settings.WIDTH*2/5, settings.HEIGHT/3*2/5])
+     
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, settings.HEIGHT*2/3+settings.HEIGHT/6/5-12, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6/5-12, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/10-12, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                pg.draw.rect(self.screen, settings.MARROM_ESC,[settings.WIDTH/2+20, settings.HEIGHT*2/3+settings.HEIGHT/6+20, settings.WIDTH*2/5-8, settings.HEIGHT/3*2/5-8])
+                
+                text_surface = self.game.font20.render("Q", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/10-2, settings.HEIGHT*2/3+settings.HEIGHT/6/5-8)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font.render(self.criaturaP.moves[0], True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6/5+8)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font20.render("W", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+30, settings.HEIGHT*2/3+settings.HEIGHT/6/5-8)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font.render(self.criaturaP.moves[1], True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6/5+8)
+                self.screen.blit(text_surface, text_rect)
+    
+                text_surface = self.game.font20.render("E", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/10-2, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font.render(self.criaturaP.moves[2], True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font20.render("R", True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+30, settings.HEIGHT*2/3+settings.HEIGHT/6+24)
+                self.screen.blit(text_surface, text_rect)
+                
+                text_surface = self.game.font.render(self.criaturaP.moves[3], True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
+                self.screen.blit(text_surface, text_rect)
         pg.display.flip()
     def goback(self):
         ASD = random.randint(0,100)
@@ -566,8 +684,8 @@ class Combate_central:
                         if self.c == 0:
                             self.c+=1
                         elif self.c == 1:
-                            self.criaturaP.lvup(self.adversario.lv)
                             self.condicao = 'captura'
+                            self.criaturaP.lvup(self,self.adversario.lv)
                             self.c=0
                 if self.condicao == 'perdeu':
                     if event.key == pg.K_SPACE:
@@ -739,3 +857,37 @@ class Combate_central:
                             self.condicao = 'escolha'
                     if event.key == pg.K_SPACE:
                         self.condicao = 'escolha'
+                if self.condicao == 'subiu nivel':
+                    if self.c == 0:
+                        if event.key == pg.K_SPACE:
+                            if self.criaturaP.lv in self.M.move_pool.values():
+                                for m,nv in self.M.move_pool.items():
+                                    if self.criaturaP.lv == nv:
+                                        self.golpe = m
+                                self.c += 1
+                            else:
+                                self.condicao = 'captura'
+                    if self. c == 1:
+                        if event.key == pg.K_s:
+                            if len (self.criaturaP.moves)<4:
+                                self.criaturaP.moves.append(self.golpe)
+                                self.condicao = 'captura'
+                            self.c+=1
+                        if event.key == pg.K_n:
+                            self.condicao = 'captura'
+                    if self. c == 2:
+                        if event.key == pg.K_SPACE:
+                            self.c+=1
+                    if self. c == 3:
+                        if event.key == pg.K_q:
+                            self.criaturaP.troca_golpe(0,self.golpe)
+                            self.condicao = 'captura'
+                        if event.key == pg.K_w:
+                            self.criaturaP.troca_golpe(1,self.golpe)
+                            self.condicao = 'captura'
+                        if event.key == pg.K_e:
+                            self.criaturaP.troca_golpe(2,self.golpe)
+                            self.condicao = 'captura'
+                        if event.key == pg.K_r:
+                            self.criaturaP.troca_golpe(3,self.golpe)
+                            self.condicao = 'captura'
