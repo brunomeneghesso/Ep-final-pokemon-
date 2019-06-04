@@ -17,6 +17,7 @@ class Game:
         self.load_data()
         self.abrindo = False
         self.curando = False
+        self.troca = False
         self.c=0
         
     def coloca_itens(self):
@@ -62,6 +63,7 @@ class Game:
         self.fim = pg.image.load(path.join(img_folder, "end_screen.png")).convert()
         self.combat_back = pg.image.load(path.join(img_folder, "combat_background.png")).convert()
         self.cura_img = pg.image.load(path.join(img_folder, "cura.png")).convert()
+        self.pc_img = pg.image.load(path.join(img_folder, "pc.png")).convert()
         self.font=settings.fonte
         self.font40=settings.fonte_combate
         self.font20=settings.fonte_legenda
@@ -98,7 +100,7 @@ class Game:
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
         sprites.Cura(self, 1,1)
-
+        sprites.PC(self, 1, 2)
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
     def run(self):
@@ -271,6 +273,7 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
+        elif self.troca == True:
     def morte(self):
         self.playing = False
         self.game_over = True
