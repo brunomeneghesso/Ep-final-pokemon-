@@ -19,7 +19,6 @@ class Game:
         self.curando = False
         self.troca = False
         self.c=0
-        
     def coloca_itens(self):
         self.item1 = sprites.item('batata frita',20)
         self.item2 = sprites.item('xicara de cafe',50)
@@ -126,7 +125,12 @@ class Game:
             for col, tile in enumerate(tiles):
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
-                    self.player.captura(sprites.Criatura([self.testeMov, self.testeSuper,self.testePouco,self.testeSTB], 1, 0, self.monstro_teste))
+                    if self.inicial == 'planta':
+                        self.player.captura(sprites.criatura([self.planta1,self.neutro1], 5, 0, self.inicial_planta))
+                    if self.inicial == 'agua':
+                        self.player.captura(sprites.criatura([self.agua1,self.neutro1], 5, 0, self.inicial_agua))
+                    if self.inicial == 'fogo':
+                        self.player.captura(sprites.criatura([self.fogo1,self.neutro1], 5, 0, self.inicial_fogo))
         for X in range(28,78):
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
@@ -393,7 +397,14 @@ class Game:
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
                         self.quit()
-                    if event.key == pg.K_SPACE:
+                    if event.key == pg.K_q:
+                        self.inicial = 'planta'
+                        self.start_on2 = False
+                    if event.key == pg.K_w:
+                        self.inicial = 'fogo'
+                        self.start_on2 = False
+                    if event.key == pg.K_e:
+                        self.inicial = 'panta'
                         self.start_on2 = False
          
 
