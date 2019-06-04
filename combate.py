@@ -168,6 +168,10 @@ class Combate_central:
             text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6/5+8)
             self.screen.blit(text_surface, text_rect)
             
+            text_surface = self.game.font20.render(str(self.criaturaP.moves[0].custo), True, settings.BRANCO)
+            text_rect = text_surface.get_rect()
+            text_rect.bottomright = (settings.WIDTH/2-28, settings.HEIGHT*5/6-20)
+            self.screen.blit(text_surface, text_rect)
             if len(self.criaturaP.moves)>=2:
                 text_surface = self.game.font20.render("W", True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
@@ -178,7 +182,11 @@ class Combate_central:
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6/5+8)
                 self.screen.blit(text_surface, text_rect)
-
+                
+                text_surface = self.game.font20.render(str(self.criaturaP.moves[1].custo), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.bottomright = (settings.WIDTH*9/10+4, settings.HEIGHT*5/6-20)
+                self.screen.blit(text_surface, text_rect)
             if len(self.criaturaP.moves)>=3:
                 text_surface = self.game.font20.render("E", True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
@@ -189,7 +197,11 @@ class Combate_central:
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH*3/10-4, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
                 self.screen.blit(text_surface, text_rect)
-            
+                
+                text_surface = self.game.font20.render(str(self.criaturaP.moves[2].custo), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.bottomright = (settings.WIDTH/2-28, settings.HEIGHT*29/30+12)
+                self.screen.blit(text_surface, text_rect)
             if len(self.criaturaP.moves)>=4:
                 text_surface = self.game.font20.render("R", True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
@@ -201,6 +213,10 @@ class Combate_central:
                 text_rect.midtop = (settings.WIDTH/2+12+settings.WIDTH/5, settings.HEIGHT*2/3+settings.HEIGHT/6+40)
                 self.screen.blit(text_surface, text_rect)
             
+                text_surface = self.game.font20.render(str(self.criaturaP.moves[3].custo), True, settings.BRANCO)
+                text_rect = text_surface.get_rect()
+                text_rect.bottomright = (settings.WIDTH*9/10+4, settings.HEIGHT*29/30+12)
+                self.screen.blit(text_surface, text_rect)
         if self.condicao == 'atacando':
             if self.c == 0:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
