@@ -232,10 +232,12 @@ class Bau(pg.sprite.Sprite):
             self.image=self.game.bau_a_img
 
 class Monstro(pg.sprite.Sprite):
-    def __init__(self, nome, tipo, ataque, defesa, vida, mana, move_pool, imagem, crescimento, explv):
+    def __init__(self, nome, tipo, ataque, defesa, vida, mana, move_pool, imagem1,imagem2, crescimento, explv):
         self.nome = nome
-        self.image = imagem
-        self.rect = self.image.get_rect()
+        self.image1 = imagem1
+        self.image2 = imagem2
+        self.rect1 = self.image1.get_rect()
+        self.rect2 = self.image2.get_rect()
         self.tipo = tipo
         self.move_pool = move_pool
         self.crescimento = crescimento
