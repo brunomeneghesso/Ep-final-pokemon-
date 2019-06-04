@@ -29,6 +29,7 @@ class Game:
     def load_data(self):
         self.game_over = False
         self.start_on = True
+        
         self.start_on2 = True
         self.end_on = True
         game_folder = path.dirname(__file__)
@@ -224,9 +225,6 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
-
-
-                    self.player = sprites.Player(self, col, row)
                     self.player.x = col
                     self.player.y = row
         for X in range(28,78):
