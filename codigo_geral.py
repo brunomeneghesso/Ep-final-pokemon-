@@ -38,7 +38,7 @@ class Game:
         self.player_img_down = pg.image.load(path.join(img_folder, "char_down.png")).convert_alpha()
         self.player_img_left = pg.image.load(path.join(img_folder, "char_left.png")).convert_alpha()
         self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
-        self.roof = pg.image.load(path.join(img_folder, "roof.png")).convert_alpha()
+        self.roof = pg.image.load(path.join(img_folder, "roof2.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
         self.wall_img2 = pg.image.load(path.join(img_folder, "wall3.png")).convert_alpha()
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
