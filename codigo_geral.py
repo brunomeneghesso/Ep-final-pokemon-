@@ -78,12 +78,24 @@ class Game:
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
+<<<<<<< HEAD
+
+        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
+        self.screen.fill(settings.VERDE)
+
+        self.pc = pg.sprite.Group()
+        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
+
+
+
+=======
         self.pc = pg.Group()
         lista_baus=[[18,5,self.item1]]
         self.screen.fill(settings.VERDE)
          
 
 
+>>>>>>> c8b397a63e55bf3eeb977e33027bb70098c826ff
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 
@@ -214,6 +226,20 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
+<<<<<<< HEAD
+
+                    self.player = sprites.Player(self, col, row)
+
+        #for X in range(28,78):
+           # for Y in range(1,11):
+              #  sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
+
+                    self.player.x = col
+                    self.player.y = row
+        for X in range(28,78):
+            for Y in range(1,11):
+                sprites.Mato(self,X,Y,[self.monstro_teste],1,1)
+=======
                     self.player = sprites.Player(self, col, row)
 
         for X in range(28,78):
@@ -222,6 +248,7 @@ class Game:
 
         self.player.x = col
         self.player.y = row
+>>>>>>> c8b397a63e55bf3eeb977e33027bb70098c826ff
 
 
         self.player.x = 8
@@ -312,6 +339,10 @@ class Game:
                             self.c+=1
                         else:
                             self.curando = False
+<<<<<<< HEAD
+
+=======
+>>>>>>> c8b397a63e55bf3eeb977e33027bb70098c826ff
         elif self.troca == True:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
@@ -327,6 +358,10 @@ class Game:
                         self.c+=2
                     if event.key == pg.K_SPACE:
                         self.troca = False
+<<<<<<< HEAD
+                        
+
+=======
                 if self.c == 1:
                     if event.key == pg.K_SPACE:
                         self.c = 0
@@ -348,6 +383,7 @@ class Game:
                                 self.player.capturas.append(self.player.party[2])
                                 del(self.player.party[2])
                                 self.c=0
+>>>>>>> c8b397a63e55bf3eeb977e33027bb70098c826ff
     def morte(self):
         self.playing = False
         self.game_over = True
