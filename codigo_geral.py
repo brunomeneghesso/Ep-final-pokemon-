@@ -127,11 +127,11 @@ class Game:
                 if tile == 'P':
                     self.player = sprites.Player(self, col, row)
                     if self.inicial == 'planta':
-                        self.player.captura(sprites.criatura([self.planta1,self.neutro1], 5, 0, self.inicial_planta))
+                        self.player.captura(sprites.Criatura([self.planta1,self.neutro1], 5, 0, self.inicial_planta))
                     if self.inicial == 'agua':
-                        self.player.captura(sprites.criatura([self.agua1,self.neutro1], 5, 0, self.inicial_agua))
+                        self.player.captura(sprites.Criatura([self.agua1,self.neutro1], 5, 0, self.inicial_agua))
                     if self.inicial == 'fogo':
-                        self.player.captura(sprites.criatura([self.fogo1,self.neutro1], 5, 0, self.inicial_fogo))
+                        self.player.captura(sprites.Criatura([self.fogo1,self.neutro1], 5, 0, self.inicial_fogo))
         for X in range(28,78):
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
