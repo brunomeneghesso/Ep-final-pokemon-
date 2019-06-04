@@ -40,9 +40,10 @@ class Game:
         self.player_img_right = pg.image.load(path.join(img_folder, "char_right.png")).convert_alpha()
         self.roof = pg.image.load(path.join(img_folder, "roof2.png")).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, "wall.png")).convert_alpha()
-        self.wall_img2 = pg.image.load(path.join(img_folder, "wall3.png")).convert_alpha()
+        self.tree_wall_img = pg.image.load(path.join(img_folder, "tree.png")).convert_alpha()
         self.ground_img = pg.image.load(path.join(img_folder, "stone_brick.png")).convert_alpha()
         self.ground_img2 = pg.image.load(path.join(img_folder, "ground2.png")).convert_alpha()
+        self.lake = pg.image.load(path.join(img_folder, "lake.png")).convert_alpha()
         self.grass_img = pg.image.load(path.join(img_folder, "mossy_stone_brick.png")).convert_alpha()
         self.grass_img2 = pg.image.load(path.join(img_folder, "grass3.png")).convert_alpha()
         self.grass_img3 = pg.image.load(path.join(img_folder, "grass2.png")).convert_alpha()
@@ -155,7 +156,7 @@ class Game:
                 if tile == '.' or tile == 'P':
                     sprites.Grass_skin3(self, col, row)
                 if tile == '1':
-                    sprites.Wall2(self, col, row)
+                    sprites.Tree_Wall(self, col, row)
                 if tile == "w":
                     sprites.Grass_skin2(self, col, row)
                 if tile == "c":
@@ -164,6 +165,8 @@ class Game:
                     sprites.Ground2(self, col, row)
                 if tile == "+":
                     sprites.Roof(self, col, row)
+                if tile == "o":
+                    sprites.Lake(self, col, row)
         for l in lista_baus:
                 sprites.Bau(self, l[0], l[1], l[2])
         for row, tiles in enumerate(self.map.data):

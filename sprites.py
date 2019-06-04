@@ -78,12 +78,12 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * settings.TILESIZE
         self.rect.y = y * settings.TILESIZE
         
-class Wall2(pg.sprite.Sprite):
+class Tree_Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.wall_img2
+        self.image = game.tree_wall_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -256,6 +256,18 @@ class Grass_skin3(pg.sprite.Sprite):
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = game.grass_img3
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * settings.TILESIZE
+        self.rect.y = y * settings.TILESIZE
+        
+class Lake(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.lake
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
