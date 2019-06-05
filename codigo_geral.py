@@ -77,10 +77,9 @@ class Game:
         self.cura = pg.sprite.Group()
         self.screen.fill(settings.VERDE)
         self.pc = pg.sprite.Group()
-        lista_baus=[[1,12,self.item1], [16,111,self.item1], [6,6,self.item1],[1,27,self.item2],[18,5,self.item1],[1,3,self.item3],[11,112,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3]]
+        lista_baus=[[1,12,self.item1], [16,111,self.item1], [6,6,self.item1],[1,27,self.item2],[18,5,self.item1],[1,3,self.item3],[11,112,self.item3],[84,60,self.item2],[11,65,self.item3],[11,46,self.item1],[50,48,self.item3]]
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                
                 if tile == '.':
                     sprites.Grass_ground(self, col, row)
                 if tile == '1':
@@ -107,6 +106,12 @@ class Game:
                     sprites.Grass_real(self, col, row)
                 if tile == "j":
                     sprites.Mato(self,col,row,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],16,25)
+                    sprites.Grass_stone(self, col, row)
+                if tile == "p":
+                    sprites.Grass_stone(self, col, row)
+                if tile == "m":
+                    sprites.Grass_stone(self, col, row)
+                if tile == "g":
                     sprites.Grass_stone(self, col, row)
         for l in lista_baus:
                 sprites.Bau(self, l[0], l[1], l[2])
