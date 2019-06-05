@@ -36,12 +36,7 @@ class Game:
         img_folder = path.join(game_folder, 'Textures')
         ground_folder = path.join(img_folder, "ground")
         char_folder = path.join(img_folder, "char")
-        pokemon_folder = path.join(img_folder, "pokemon")
         wall_folder = path.join(img_folder, "wall")
-        #magimons
-        self.fogo = pg.image.load(path.join(pokemon_folder, "fire.png")).convert_alpha()
-        self.agua = pg.image.load(path.join(pokemon_folder, "water.png")).convert_alpha()
-        self.planta = pg.image.load(path.join(pokemon_folder, "leaf.png")).convert_alpha()
         #map
         self.map = tilemap.Map(path.join(game_folder, 'mapa mato.txt'))
         self.map2 = tilemap.Map(path.join(game_folder, 'mapa castelo.txt'))
@@ -211,25 +206,24 @@ class Game:
 
     def tp(self):
         lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
-        self.screen.fill(settings.VERDE)
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                if tile == '.' or tile == 'P':
-                    sprites.Ground_stone(self, col, row)
-                if tile == '1':
-                    sprites.Wall(self, col, row)
-                if tile == "w":
-                    sprites.Grass_stone(self, col, row)
+                #if tile == '.' or tile == 'P':
+                    #sprites.Ground_stone(self, col, row)
+                #if tile == '1':
+                    #sprites.Wall(self, col, row)
+                #if tile == "w":
+                    #sprites.Grass_stone(self, col, row)
+                if tile == "P":
+                    self.player.tp( 50, 119)
         for l in lista_baus:
             sprites.Bau(self, l[0], l[1], l[2])
-        for row, tiles in enumerate(self.map.data):
-            for col, tile in enumerate(tiles):
-                if tile == 'P':
-                    self.player.x = 50
-                    self.player.y = 24
         for X in range(28,78):
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],3,6)
+        #self.player.x = 50
+        #self.player.y = 24
+        
         self.camera = tilemap.Camera(self.map.width, self.map.height)
         self.draw()
          
