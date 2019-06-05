@@ -322,7 +322,7 @@ class Combate_central:
             if self.c == 1:
                 pg.draw.rect(self.screen, settings.MARROM_ESC,[0, settings.HEIGHT*2/3, settings.WIDTH, settings.HEIGHT/3])
                 
-                exp=self.criaturaP.lv/self.adversario.lv*10
+                exp=int(self.criaturaP.lv/self.adversario.lv*10)
                 text_surface = self.game.font40.render("Seu {0} ganhou {1} de experiência, que bom!".format(self.M.nome, exp), True, settings.BRANCO)
                 text_rect = text_surface.get_rect()
                 text_rect.midtop = (settings.WIDTH / 2,  settings.HEIGHT *8 / 10)

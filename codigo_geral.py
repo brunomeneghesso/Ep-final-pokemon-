@@ -20,9 +20,9 @@ class Game:
         self.troca = False
         self.c=0
     def coloca_itens(self):
-        self.item1 = sprites.item('batata frita',20)
-        self.item2 = sprites.item('xicara de cafe',50)
-        self.item3 = sprites.item('orelha do papai noel',200)
+        self.item1 = sprites.item('poção P',20)
+        self.item2 = sprites.item('poção M',50)
+        self.item3 = sprites.item('poção G',200)
 
     def coloca_monstros(self):
         monstros.coloca_monstros(self) 
@@ -81,11 +81,11 @@ class Game:
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
 
-        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
+
         self.screen.fill(settings.VERDE)
 
         self.pc = pg.sprite.Group()
-        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]] 
+        lista_baus=[[18,5,self.item1], [16,111,self.item1], [6,6,self.item1],[18,5,self.item2],[18,5,self.item1],[77,83,self.item3]] 
 
 
 
@@ -135,7 +135,7 @@ class Game:
         for X in range(28,78):
             for Y in range(1,11):
                 sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
-        sprites.Cura(self, 1,1)
+        sprites.Cura(self, 17,111)
         sprites.PC(self, 1, 2)
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
@@ -392,7 +392,7 @@ class Game:
                         self.inicial = 'fogo'
                         self.start_on2 = False
                     if event.key == pg.K_e:
-                        self.inicial = 'panta'
+                        self.inicial = 'agua'
                         self.start_on2 = False
          
 
