@@ -75,16 +75,9 @@ class Game:
         self.mato = pg.sprite.Group()
         self.player = pg.sprite.Group()
         self.cura = pg.sprite.Group()
-
-
         self.screen.fill(settings.VERDE)
-
         self.pc = pg.sprite.Group()
-        lista_baus=[[18,5,self.item1], [16,111,self.item1], [6,6,self.item1],[18,5,self.item2],[18,5,self.item1],[77,83,self.item3]] 
-
-
-
-
+        lista_baus=[[1,12,self.item1], [16,111,self.item1], [6,6,self.item1],[1,27,self.item2],[18,5,self.item1],[1,3,self.item3],[11,112,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3]]
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 
@@ -112,21 +105,12 @@ class Game:
                 if tile == "M":
                     sprites.Mato(self,col,row,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],16,25)
                     sprites.Grass_real(self, col, row)
+                if tile == "j":
+                    sprites.Mato(self,col,row,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],16,25)
+                    sprites.Grass_stone(self, col, row)
         for l in lista_baus:
                 sprites.Bau(self, l[0], l[1], l[2])
 
-
-
-
-
-
-
-
-
-
-
-
-        
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == 'P':
@@ -293,58 +277,47 @@ class Game:
                     text_rect.center = (pos[X][0],pos[X][1])
                     self.screen.blit(text_surface, text_rect)
                     X+=1
-        # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
+
     def check_tp(self):
         if self.player.x == 61:
-            if self.player.y == 39:
-                self.map = self.map2
+            if self.player.y == 40:
                 self.tp()
                 self.update()
         if self.player.x == 60:
-            if self.player.y == 39:
-                self.map = self.map2
+            if self.player.y == 40:
                 self.tp()
                 self.update()
         if self.player.x == 59:
-            if self.player.y == 39:
-                self.map = self.map2
+            if self.player.y == 40:
                 self.tp()
                 self.update()
         if self.player.x == 62:
-            if self.player.y == 39:
-                self.map = self.map2
+            if self.player.y == 40:
                 self.tp()
+                self.update()
+        if self.player.x == 51:
+            if self.player.y == 25:
+                self.tp2()
+                self.update()
+        if self.player.x == 49:
+            if self.player.y == 25:
+                self.tp2()
+                self.update()
+        if self.player.x == 50:
+            if self.player.y == 25:
+                self.tp2()
                 self.update()
 
     def tp(self):
-        lista_baus=[[18,5,self.item1], [18,1,self.item2], [6,6,self.item3]]
-        for row, tiles in enumerate(self.map.data):
-            for col, tile in enumerate(tiles):
-                #if tile == '.' or tile == 'P':
-                    #sprites.Ground_stone(self, col, row)
-                #if tile == '1':
-                    #sprites.Wall(self, col, row)
-                #if tile == "w":
-                    #sprites.Grass_stone(self, col, row)
-                if tile == "P":
-                    self.player.tp( 50, 119)
-        for l in lista_baus:
-            sprites.Bau(self, l[0], l[1], l[2])
-        for X in range(28,78):
-            for Y in range(1,11):
-                sprites.Mato(self,X,Y,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],3,6)
-        #self.player.x = 50
-        #self.player.y = 24
-        
+        self.player.tp( 50, 24)
         self.camera = tilemap.Camera(self.map.width, self.map.height)
         self.draw()
-         
-
-
-
-
-
+        
+    def tp2(self):
+        self.player.tp( 60, 41)
+        self.camera = tilemap.Camera(self.map.width, self.map.height)
+        self.draw()
 
     def events(self):
         if not self.abrindo and not self.curando and not self.troca:
