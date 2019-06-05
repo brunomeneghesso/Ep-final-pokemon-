@@ -77,9 +77,9 @@ class Game:
         self.cura = pg.sprite.Group()
         self.screen.fill(settings.VERDE)
         self.pc = pg.sprite.Group()
+
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
-                
                 if tile == '.':
                     sprites.Grass_ground(self, col, row)
                 if tile == '1':
@@ -117,6 +117,7 @@ class Game:
                     sprites.Bau(self,col,row,self.item2)
                 if tile == "g":
                     sprites.Bau(self,col,row,self.item3)
+
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
