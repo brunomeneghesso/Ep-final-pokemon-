@@ -731,6 +731,7 @@ class Combate_central:
                         if self.disponivel>0:
                             self.condicao = 'trocar'
                         else:
+                            self.game.morte()
                             self.forcegoback()
                 if self.condicao == 'trocar':
                     if event.key == pg.K_SPACE:
