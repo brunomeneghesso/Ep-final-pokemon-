@@ -38,6 +38,10 @@ class Player(pg.sprite.Sprite):
         self.rot=rodar
         if self.testa_combate(dx, dy):
             self.game.combate() 
+    def tp(self, nx, ny):
+            self.x = nx
+            self.y = ny
+            self.image = self.game.player_img_right
     
     def testa_combate(self, dx=0, dy=0):
         for m in self.game.mato:
