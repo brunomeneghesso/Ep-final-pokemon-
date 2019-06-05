@@ -77,7 +77,6 @@ class Game:
         self.cura = pg.sprite.Group()
         self.screen.fill(settings.VERDE)
         self.pc = pg.sprite.Group()
-        lista_baus=[[1,12,self.item1], [16,111,self.item1], [6,6,self.item1],[1,27,self.item2],[18,5,self.item1],[1,3,self.item3],[11,112,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3],[1,3,self.item3]]
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 
@@ -108,8 +107,16 @@ class Game:
                 if tile == "j":
                     sprites.Mato(self,col,row,[self.inicial_fogo, self.inicial_agua, self.inicial_planta],16,25)
                     sprites.Grass_stone(self, col, row)
-        for l in lista_baus:
-                sprites.Bau(self, l[0], l[1], l[2])
+                if tile == "U":
+                    sprites.Cura(self,col,row)
+                if tile == "C":
+                    sprites.PC(self,col,row)
+                if tile == "p":
+                    sprites.Bau(self, col, row, self.item1)
+                if tile == "x":
+                    sprites.Bau(self,col,row,self.item2)
+                if tile == "g":
+                    sprites.Bau(self,col,row,self.item3)
 
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
@@ -121,11 +128,7 @@ class Game:
                         self.player.captura(sprites.Criatura([self.agua1,self.neutro1], 5, 0, self.inicial_agua))
                     if self.inicial == 'fogo':
                         self.player.captura(sprites.Criatura([self.fogo1,self.neutro1], 5, 0, self.inicial_fogo))
-        for X in range(28,78):
-            for Y in range(1,11):
-                sprites.Mato(self,X,Y,[self.monstro_teste],1,1) 
-        sprites.Cura(self, 17,111)
-        sprites.PC(self, 18, 111)
+
         self.camera = tilemap.Camera(self.map.width, self.map.height)
 
     def run(self):
