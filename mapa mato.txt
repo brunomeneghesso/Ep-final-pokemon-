@@ -41,7 +41,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 111111111111111111111111111111111111ccccccccccccccccccccccc++++ccccccccccccccc1
 1wwwwwwwooooooo..oooooooooooooooooooooooooooooooooooooooooo++++oooooooooooooooo
 1wwwwwwoooooooooo..................oooooooooooooooooooooooo++++oooooooooooooooo
-1oooooooooooooo...........................................P====wwwwwwwwwwwwwww1
+1oooooooooooooo............................................====wwwwwwwwwwwwwww1
 1ooooooooooo......=============================================wwwwwwwwwwwwwww1
 1oooooooooooo.....=============================================wwwwwwwwwwwwwww1
 111oooooooooooo...=============================================wwwwwwwwwwwwwww1
@@ -111,7 +111,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 1111111111111111111111111111111111111111111111111wwwwwwwwooooowwwwwwwwwwwwwwww1
 1111111111111111111.11111111111111111111111111111wwwwwwwwwwwwwwwwwwwwwwwwwwwww1
 11111w.11111.111.....1111111111.1111111...111111w...wwwwwwwwwww.....wwwwwww...1
-111www.oo.........===================....wwwwwwwwwwwwwwwwwwwwwwwww....wwwwwwww1
+111www.oo.......P.===================....wwwwwwwwwwwwwwwwwwwwwwwww....wwwwwwww1
 11ww.oooooo.......===================....wwwwwwwwwwwwwwwwwwwwwwwwwww..wwwwwwwww1
 111.oooooooow.....==...1..111......==....wwwwwww..wwwwwwwwwwwwwwwwwwwwwwwwwwww1
 1111ooooooooow....==..1111111111...==....wwwwwww.wwwwwwwwwww..wwwwwwwwwwwwwwww1

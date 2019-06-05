@@ -266,7 +266,7 @@ class Criatura(Monstro):
         if self.hp < 0:
             self.hp = 0
     def lvup(self,game,lva):
-        self.exp+=10*self.lv/lva
+        self.exp+=int(10*self.lv/lva)
         while self.exp>self.monstro.explv*self.lv:
             self.exp-=self.monstro.explv*self.lv
             self.lv+=1
