@@ -29,7 +29,6 @@ class Game:
     def load_data(self):
         self.game_over = False
         self.start_on = True
-        
         self.start_on2 = True
         self.end_on = True
         game_folder = path.dirname(__file__)
